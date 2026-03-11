@@ -158,6 +158,8 @@ class LoanRequestWorkflowSignals:
 
         # --- 6. Supplier Swimlane (Closing) ---
         loan_request_report = await workflow.execute_activity(close_loan_approval_file, loan_request_report, start_to_close_timeout=common_timeout)
+
+        # Probably would wanna have an activity to store the data in a DB here
     
         final_summary = {
             "report": loan_request_report,
