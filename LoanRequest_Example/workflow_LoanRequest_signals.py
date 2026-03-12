@@ -18,11 +18,12 @@ class LoanRequestWorkflowSignals:
         self.current_task_assignee = None
         self.current_task_result = {}
 
-    # -------------------------------------------------------- #
-    #                                                          #
-    # -------------- SIGNAL HANDLER DEFINITIONS -------------- #
-    #                                                          #
-    # -------------------------------------------------------- #
+    # -------------------------------------------------- #
+    #                                                    #
+    # --------------   SIGNAL HANDLER &   -------------- #
+    # -------------- FUNCTION DEFINITIONS -------------- #
+    #                                                    #
+    # -------------------------------------------------- #
 
 
     @workflow.signal
@@ -40,8 +41,8 @@ class LoanRequestWorkflowSignals:
 
     async def execute_ucon_human_task(self, task_name: str, input_data: dict, common_timeout: timedelta) -> dict:
         '''
-        Singal handler that abstracts the worflow from the nuances of running a human task with UCON policy checks
-        This handler uses signals itself to handle the Pre, On and Post policy checks for a given human task 
+        Function that abstracts the worflow from the nuances of running a human task with UCON policy checks
+        This function uses signals itself to handle the Pre, On and Post policy checks for a given human task 
         '''
         OnPolicyChecksTime=timedelta(seconds=15) # Frecuency in which the On-Policies are checked when a task is claimed
 
@@ -51,14 +52,14 @@ class LoanRequestWorkflowSignals:
             self.current_task_assignee = None
             self.current_task_result = {}
 
-            # 0. Notify the external system there's a new pending activity
+            # Notify the external system there's a new pending activity
             await workflow.execute_activity(
                 notify_external_system,
                 {"task_name": task_name, "status": "pending", "data": input_data},
                 start_to_close_timeout=common_timeout
             )
 
-            # 1. --- PRE-Policy Checks ---
+            # --- PRE-Policy Checks ---
             # Wait for someone to claim the task
             await workflow.wait_condition(lambda: self.current_task_state == "claimed")
 
@@ -95,7 +96,7 @@ class LoanRequestWorkflowSignals:
                         break # Break from the On-Policy check loop
             
             if revoked:
-                continue # Back to the beggining and create the task as pending
+                continue # Back to the beggining, create the task as pending
 
             # --- POST-Policy Checks ---
             if self.current_task_state == "completed":
