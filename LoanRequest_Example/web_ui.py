@@ -165,21 +165,22 @@ async def serve_webpage():
             data.tasks.forEach(task => {
                 const isPending = task.status === 'pending';
                 const isMine = task.assignee === currentUser;
+                const safeData = JSON.stringify(task.data).replace(/"/g, '&quot;');
                 
                 let buttonsHtml = '';
                 if (isPending) {
-                    buttonsHtml = `<button class="btn btn-claim" onclick="sendSignal('${task.workflow_id}', 'claim')">Claim</button>`;
+                    buttonsHtml = `<button class="btn btn-claim" onclick="sendSignal('${task.workflow_id}', 'claim', ${safeData}, '${task.task_name}')">Claim</button>`;
                 } else if (isMine) {
-                    buttonsHtml = `<button class="btn btn-complete" onclick="sendSignal('${task.workflow_id}', 'complete')">Complete</button>`;
+                    buttonsHtml = `<button class="btn btn-complete" onclick="sendSignal('${task.workflow_id}', 'complete', ${safeData}, '${task.task_name}')">Complete</button>`;
                 } else {
                     buttonsHtml = `<i>Blocked (Assigned to ${task.assignee})</i>`;
                 }
 
                 container.innerHTML += `
                     <div class="task-card ${task.status}">
-                        <h3>${task.task_name}</h3>
+                        <h3> ${task.task_name}</h3>
                         <p><b>Workflow ID:</b> ${task.workflow_id}</p>
-                        <p><b>Estado:</b> ${task.status.toUpperCase()}</p>
+                        <p><b>State:</b> ${task.status.toUpperCase()}</p>
                         <details>
                             <summary>See Data</summary>
                             <pre>${JSON.stringify(task.data, null, 2)}</pre>
@@ -191,13 +192,23 @@ async def serve_webpage():
             });
         }
 
-        async function sendSignal(wfId, action) {
-            let resultData = { "user": currentUser};
+        async function sendSignal(wfId, action, taskData, taskName) {
+            let resultData = taskData;
 
+            // Add info of task done and by who if it's completed
+            if (action === 'complete') {
+                resultData["last_task_done"] = taskName;
+                resultData["user_did_last_task"] = currentUser;
+            }
             await fetch('/api/signal', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ workflow_id: wfId, user: currentUser, action: action, result_data: resultData })
+                body: JSON.stringify({ 
+                    workflow_id: wfId, 
+                    user: currentUser, 
+                    action: action, 
+                    result_data: resultData 
+                })
             });
             
             loadTasks();
