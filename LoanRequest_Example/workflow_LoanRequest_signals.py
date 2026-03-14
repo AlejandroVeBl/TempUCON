@@ -6,7 +6,7 @@ with workflow.unsafe.imports_passed_through():
     # Import regular activities from the BPMN diagram
     from activities_customer import receive_notification, send_ack_receipt
     from activities_staff import send_rating_reports
-    from activities_supplier import request_report, collect_rating_reports, send_negative_notification
+    from activities_supplier import request_report, collect_rating_reports, send_negative_notification, close_loan_approval_file
     # Import UCON activities
     from activities_ucon import notify_external_system, check_opa_policy
 

@@ -7,6 +7,8 @@ async def notify_external_system(task_data: dict) -> dict:
     Receives the task name in task_data['task_name']
     and sends a real HTTP POST request to the external system.
     '''
+    task_data["workflow_id"] = activity.info().workflow_id
+
     activity.logger.info(f"Sending the API request for task -> {task_data.get('task_name')}")
     
     # URL of the front end system

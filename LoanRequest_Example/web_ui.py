@@ -10,12 +10,22 @@ from workflow_LoanRequest_signals import LoanRequestWorkflowSignals
 app = FastAPI(title="Loan Request - Control Panel")
 logging.basicConfig(level=logging.INFO)
 
-# Data model it expects to receive via the API
+# To store the tasks
+tasks_db = {}
+
+# Data model it expects to receive via the API to send signals
 class SignalRequest(BaseModel):
     workflow_id: str
     user: str
     action: str  # "claim" or "complete"
     result_data: dict = None
+
+# Data model it expects to receive via the API to receive tasks
+class WebhookTask(BaseModel):
+    workflow_id: str
+    task_name: str
+    status: str = "pending"
+    data: dict = {}
 
 @app.get("/", response_class=HTMLResponse)
 async def serve_webpage():
@@ -30,92 +40,125 @@ async def serve_webpage():
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Task Panel</title>
         <style>
-            body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; color: #333; padding: 20px; }
-            .container { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-            h1 { color: #2c3e50; font-size: 24px; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
-            .form-group { margin-bottom: 15px; }
-            label { display: block; font-weight: bold; margin-bottom: 5px; }
-            input[type="text"] { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
-            .btn { padding: 10px 20px; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; margin-right: 10px; }
-            .btn-claim { background-color: #f39c12; }
-            .btn-complete { background-color: #27ae60; }
-            .btn:hover { opacity: 0.9; }
-            #logBox { margin-top: 20px; background: #2c3e50; color: #ecf0f1; padding: 15px; border-radius: 4px; height: 150px; overflow-y: auto; font-family: monospace; }
+            body { font-family: 'Segoe UI', sans-serif; background: #f4f7f6; padding: 20px; }
+            .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+            h1 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+            .user-bar { background: #e8f4f8; padding: 15px; border-radius: 5px; margin-bottom: 20px; display: flex; gap: 10px; align-items: center;}
+            .task-card { border: 1px solid #ddd; padding: 15px; border-radius: 5px; margin-bottom: 15px; background: #fff; }
+            .task-card.claimed { border-left: 5px solid #f39c12; }
+            .task-card.pending { border-left: 5px solid #e74c3c; }
+            .btn { padding: 8px 15px; color: white; border: none; border-radius: 4px; cursor: pointer; }
+            .btn-claim { background: #f39c12; }
+            .btn-complete { background: #27ae60; }
+            .btn-refresh { background: #3498db; }
+            pre { background: #eee; padding: 10px; border-radius: 4px; font-size: 12px; overflow-x: auto;}
         </style>
     </head>
     <body>
         <div class="container">
-            <h1>Employee Panel</h1>
+            <h1>Task List</h1>
             
-            <div class="form-group">
-                <label for="workflowId">Workflow ID:</label>
-                <input type="text" id="workflowId" placeholder="Paste your Workflow ID here">
-            </div>
-            
-            <div class="form-group">
-                <label for="userName">Username:</label>
-                <input type="text" id="userName" placeholder="">
+            <div class="user-bar">
+                <label><b>Current User:</b></label>
+                <input type="text" id="userName" value="" style="padding:5px;">
+                <button class="btn btn-refresh" onclick="loadTasks()">Reload Tasks</button>
             </div>
 
-            <div style="margin-top: 20px;">
-                <button class="btn btn-claim" onclick="sendSignal('claim')">Claim Task</button>
-                <button class="btn btn-complete" onclick="sendSignal('complete')">Complete Task</button>
-            </div>
-
-            <div id="logBox">Waiting for actions</div>
+            <div id="tasksContainer">Loading Tasks...</div>
         </div>
 
         <script>
-            function logMessage(msg) {
-                const logBox = document.getElementById('logBox');
-                logBox.innerHTML += '<div>> ' + msg + '</div>';
-                logBox.scrollTop = logBox.scrollHeight;
-            }
+            // Load tasks when loading into the webpage
+            window.onload = loadTasks;
+            // Refresh every 5s
+            setInterval(loadTasks, 5000);
 
-            async function sendSignal(action) {
-                const wfId = document.getElementById('workflowId').value;
-                const user = document.getElementById('userName').value;
-
-                if (!wfId || !user) {
-                    alert("Please fill out the workflow ID and user info");
+            async function loadTasks() {
+                const response = await fetch('/api/tasks?t=' + new Date().getTime());
+                const data = await response.json();                const container = document.getElementById('tasksContainer');
+                const currentUser = document.getElementById('userName').value;
+                
+                if (data.tasks.length === 0) {
+                    container.innerHTML = "<p>No pending tasks</p>";
                     return;
                 }
 
-                logMessage(`Sending [${action.toUpperCase()}] for user ${user}...`);
-
-                // Mock data for 'complete'
-                let resultData = null;
-                if (action === 'complete') {
-                    resultData = { "status": "ok"};
-                }
-
-                try {
-                    const response = await fetch('/api/signal', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            workflow_id: wfId,
-                            user: user,
-                            action: action,
-                            result_data: resultData
-                        })
-                    });
+                container.innerHTML = ""; // Clear
+                
+                data.tasks.forEach(task => {
+                    const isPending = task.status === 'pending';
+                    const isMine = task.assignee === currentUser;
                     
-                    const result = await response.json();
-                    if (response.ok) {
-                        logMessage(`Success: ${result.message}`);
+                    let buttonsHtml = '';
+                    if (isPending) {
+                        buttonsHtml = `<button class="btn btn-claim" onclick="sendSignal('${task.workflow_id}', 'claim')">Claim</button>`;
+                    } else if (isMine) {
+                        buttonsHtml = `<button class="btn btn-complete" onclick="sendSignal('${task.workflow_id}', 'complete')">Complete</button>`;
                     } else {
-                        logMessage(`Error: ${result.detail}`);
+                        buttonsHtml = `<i>Blocked (Assigned to ${task.assignee})</i>`;
                     }
-                } catch (error) {
-                    logMessage(`Error: ${error}`);
-                }
+
+                    const card = `
+                        <div class="task-card ${task.status}">
+                            <h3>${task.task_name}</h3>
+                            <p><b>Workflow ID:</b> ${task.workflow_id}</p>
+                            <p><b>State:</b> ${task.status.toUpperCase()}</p>
+                            <details>
+                                <summary>See Entry Data</summary>
+                                <pre>${JSON.stringify(task.data, null, 2)}</pre>
+                            </details>
+                            <br>
+                            ${buttonsHtml}
+                        </div>
+                    `;
+                    container.innerHTML += card;
+                });
+            }
+
+            async function sendSignal(wfId, action) {
+                const user = document.getElementById('userName').value;
+                if (!user) { alert("Set an Username"); return; }
+
+                // Data it sends back // TODO
+                let resultData = { "user": user };
+
+                await fetch('/api/signal', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ workflow_id: wfId, user: user, action: action, result_data: resultData })
+                });
+                
+                // Reload after update on any task
+                loadTasks();
             }
         </script>
     </body>
     </html>
     """
     return html_content
+
+# --- API ENDPOINTS --- #
+@app.post("/api/webhook/tasks")
+async def receive_task(task: WebhookTask):
+    """
+    Receives the HTTP Request from a Temporal Worflow to announce a new task
+    """
+    logging.info(f"New task received: {task.task_name} from Workflow: {task.workflow_id}")
+    tasks_db[task.workflow_id] = {
+        "workflow_id": task.workflow_id,
+        "task_name": task.task_name,
+        "status": task.status,
+        "assignee": None,
+        "data": task.data
+    }
+    return {"status": "recibido"}
+
+@app.get("/api/tasks")
+async def get_tasks():
+    """
+    The frontend calls here to get a list of the current tasks
+    """
+    return {"tasks": list(tasks_db.values())}
 
 @app.post("/api/signal")
 async def handle_signal(req: SignalRequest):
@@ -129,12 +172,21 @@ async def handle_signal(req: SignalRequest):
         
         # Send the signal to the workflow
         await handle.signal(
-            LoanRequestWorkflowSignals.update_human_task,
-            req.action,
-            req.user,
-            req.result_data
+            "update_human_task", 
+            args=[req.action, req.user, req.result_data]
         )
         logging.info(f"Signal '{req.action}' sent to workflow {req.workflow_id} by the user {req.user}")
+
+        if req.workflow_id in tasks_db:
+            if req.action == "claim":
+                tasks_db[req.workflow_id]["status"] = "claimed"
+                tasks_db[req.workflow_id]["assignee"] = req.user
+                logging.info(f"Local DB Updated: Task {req.action} -> CLAIMED by {req.user}")
+            elif req.action == "complete":
+                del tasks_db[req.workflow_id]
+                logging.info(f"Local DB Updated: Task {req.action} -> Deleted (Completed by {req.user})")
+        else:
+            logging.warning(f"Workflow {req.workflow_id} not in the Local DB.")
         
         return {"status": "success", "message": f"Signal '{req.action}' processed correctly."}
     
