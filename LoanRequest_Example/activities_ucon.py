@@ -40,13 +40,42 @@ async def notify_external_system(task_data: dict) -> dict:
         raise
 
 @activity.defn
-async def check_opa_policy(auth_data: dict) -> dict:
+async def check_opa_policy(data: dict) -> dict:
     '''
-    Receives the phase (pre,on,post) in auth_data['phase]
-             the user in auth_data['user']
-             and the task in auth_data['task']
+    Receives the phase (pre,on,post) in data['phase]
+             the user in data['user']
+             and the task in data['task']
     '''
     # This mimics the behavior of an OPA check
-    activity.logger.info(f"OPA {auth_data['phase'].upper()}-AUTH check para {auth_data['user']} en {auth_data['task']}")
-    # For checking purposes let's say it always returns ('allow':True)
-    return {"allow": True}
+    activity.logger.info(f"OPA {data['phase'].upper()}-AUTH check para {data['user']} en {data['task']}")
+
+    # URL of the OPA service
+    opa_url = "http://localhost:8181/v1/data/ucon/policy" # This would be for a package ucon.policy 
+
+
+    # OPA expects the data under the "input" key
+    payload = {
+        "input": data
+    }
+
+    # OPA connection
+    try:
+        async with aiohttp.ClientSession() as session:
+            async with session.post(opa_url, json=payload) as response:
+                if response.status == 200:
+                    opa_response = await response.json()
+                    
+                    # OPA returns its data under the "result" key
+                    # If something odd happens in the file, return False
+                    result = opa_response.get("result", {"allow": False})
+                    
+                    activity.logger.info(f"OPA reply: {result}")
+                    return result
+                else:
+                    error_text = await response.text()
+                    activity.logger.error(f"HTTP Error from OPA: {response.status} - {error_text}")
+                    raise RuntimeError(f"Failure produced consulting OPA: HTTP {response.status}")
+                    
+    except aiohttp.ClientError as e:
+        activity.logger.error(f"Connection error with OPA: {e}")
+        raise RuntimeError(f"Connection error with OPA: {e}")

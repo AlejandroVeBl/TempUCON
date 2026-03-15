@@ -66,7 +66,7 @@ class LoanRequestWorkflowSignals:
             # Check the pre condition to see if they can actually claim that task
             pre_auth = await workflow.execute_activity(
                 check_opa_policy,
-                {"phase": "pre", "task": task_name, "user": self.current_task_assignee},
+                {"phase": "pre", "task": task_name, "user": self.current_task_assignee, "task_data": input_data},
                 start_to_close_timeout=common_timeout
             )
             
@@ -87,7 +87,7 @@ class LoanRequestWorkflowSignals:
                     # Time to check passed and it's still 'claimed'. Check On-Policies
                     on_auth = await workflow.execute_activity(
                         check_opa_policy,
-                        {"phase": "on", "task": task_name, "user": self.current_task_assignee},
+                        {"phase": "on", "task": task_name, "user": self.current_task_assignee, "task_data": input_data},
                         start_to_close_timeout=common_timeout
                     )
                     if not on_auth.get("allow"):
@@ -102,7 +102,7 @@ class LoanRequestWorkflowSignals:
             if self.current_task_state == "completed":
                 post_auth = await workflow.execute_activity(
                     check_opa_policy,
-                    {"phase": "post", "task": task_name, "user": self.current_task_assignee, "result": self.current_task_result},
+                    {"phase": "post", "task": task_name, "user": self.current_task_assignee, "task_data": input_data, "result": self.current_task_result},
                     start_to_close_timeout=common_timeout
                 )
                 
