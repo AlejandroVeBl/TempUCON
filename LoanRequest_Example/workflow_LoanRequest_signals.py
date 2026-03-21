@@ -136,7 +136,9 @@ class LoanRequestWorkflowSignals:
         # --- 3. Staff Swimlane ---
         received_req = await self.execute_ucon_human_task("receive_loan_request", loan_request, common_timeout)
         
-        loan_request_report = await self.execute_ucon_human_task("evaluate_risk", received_req, common_timeout)
+        # Perform evaluate_risk twice because of preA0(SoD) they have to be performed by separate users
+        loan_request_report = await self.execute_ucon_human_task("evaluate_risk_1", received_req, common_timeout)
+        loan_request_report = await self.execute_ucon_human_task("evaluate_risk_2", loan_request_report, common_timeout)
         
         loan_request_report = await workflow.execute_activity(send_rating_reports, loan_request_report, start_to_close_timeout=common_timeout)
 
@@ -144,18 +146,26 @@ class LoanRequestWorkflowSignals:
         loan_request_report = await workflow.execute_activity(collect_rating_reports, loan_request_report, start_to_close_timeout=common_timeout)
 
         # The gateway can be replaced with an activity to check the condition
+        # --- Case loan accepted
         if loan_request_report.get("risk", 100) <= 60:
             notif = {"msg": "Loan Approved", "approved": True}
             await self.execute_ucon_human_task("send_approved_notification", notif, common_timeout)
+
+            # --- 5. Customer Swimlane (Notification) ---
+            notif_result = await workflow.execute_activity(receive_notification, notif, start_to_close_timeout=common_timeout)
+            ack = await workflow.execute_activity(send_ack_receipt, notif_result, start_to_close_timeout=common_timeout)
+
+            # -- Back to supplier swimlane after receiving the ack, open loan file 
             await self.execute_ucon_human_task("open_loan_file", loan_request_report, common_timeout)
+        
+        # --- Case loan denied
         else:
             notif = {"msg": "Loan Denied because of high risk", "approved": False}
             await workflow.execute_activity(send_negative_notification, notif, start_to_close_timeout=common_timeout)
 
-        # --- 5. Customer Swimlane (Notification) ---
-        notif_result = await workflow.execute_activity(receive_notification, notif, start_to_close_timeout=common_timeout)
-        
-        ack = await workflow.execute_activity(send_ack_receipt, notif_result, start_to_close_timeout=common_timeout)
+            # --- 5. Customer Swimlane (Notification) ---
+            notif_result = await workflow.execute_activity(receive_notification, notif, start_to_close_timeout=common_timeout)
+            ack = await workflow.execute_activity(send_ack_receipt, notif_result, start_to_close_timeout=common_timeout)
 
         # --- 6. Supplier Swimlane (Closing) ---
         loan_request_report = await workflow.execute_activity(close_loan_approval_file, loan_request_report, start_to_close_timeout=common_timeout)

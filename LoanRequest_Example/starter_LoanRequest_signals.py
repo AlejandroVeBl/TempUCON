@@ -6,10 +6,26 @@ from temporalio import workflow
 async def main():
     client = await Client.connect("localhost:7233")
 
-    # Bogus Dict that would be gotten from the loan form
+    # Bogus Dict that would be gotten from the loan form / the bank DB
     loan_data = {
-        "user": "Ale",
+        # --- User Data ---
+        "user_id": "Ale",
+        "role": "Customer",
+        
+        # --- Loan Info ---
         "amount": 25000,
+        "remuneration": 3000,   # For preA1
+        "costs": 1000,          # For preA1
+        
+        # --- History ---
+        "active_loans": 2,      # For preA3
+        
+        # --- Previous Obligations ---
+        "agreed_gdpr": True,    # For preB0
+        "agreed_terms": True,   # For preB1
+        
+        # --- Environment ---
+        "device_type": "desktop" # For preC0
     }
 
     # Workflow ID
