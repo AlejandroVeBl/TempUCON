@@ -123,6 +123,13 @@ class LoanRequestWorkflowSignals:
         # Parameters
         common_timeout = timedelta(seconds=10)
 
+        # Objects from the initial data
+        loan_request     = initial_data.get("loan_request", {}) # has inside aside for regular attributes the fields: customer, gdpr, account and credit_supplier 
+        report           = initial_data.get("report", {})
+        environment      = initial_data.get("mock_environment", {})
+        # history          = initial_data.get("history", {})
+        environment["history"] = initial_data.get("history", {})
+
         # --- 1. Customer Swimlane ---
         loan_info = await self.execute_ucon_human_task("fulfil_loan_info", initial_data, common_timeout)
         

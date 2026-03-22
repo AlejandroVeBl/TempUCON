@@ -45,6 +45,29 @@ async def check_opa_policy(data: dict) -> dict:
     Receives the phase (pre,on,post) in data['phase]
              the user in data['user']
              and the task in data['task']
+
+    TODO : It should send the following structure:
+    input : {
+        action{
+            phase,
+            task
+        },
+        subject{
+            ... # Gotten from EasyAuth in this case
+        }, 
+        object{
+            ...  # Possible ones are LoanRequest, LoanRequestReport, *account, task
+        },
+        environment{
+            history[
+                [task,user_done_it],
+                [task,user_done_it],
+                ...
+            ],
+            device,
+            time
+        }
+    }
     '''
     # This mimics the behavior of an OPA check
     activity.logger.info(f"OPA {data['phase'].upper()}-AUTH check para {data['user']} en {data['task']}")
