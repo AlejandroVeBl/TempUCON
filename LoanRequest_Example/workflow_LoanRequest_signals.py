@@ -1,5 +1,6 @@
 import asyncio
 from datetime import timedelta
+from datetime import timezone
 from temporalio import workflow
 
 with workflow.unsafe.imports_passed_through():
@@ -124,11 +125,11 @@ class LoanRequestWorkflowSignals:
         common_timeout = timedelta(seconds=10)
 
         # Objects from the initial data
-        loan_request     = initial_data.get("loan_request", {}) # has inside aside for regular attributes the fields: customer, gdpr, account and credit_supplier 
-        report           = initial_data.get("report", {})
-        environment      = initial_data.get("mock_environment", {})
-        # history          = initial_data.get("history", {})
-        environment["history"] = initial_data.get("history", {})
+        loan_request            = initial_data.get("loan_request", {}) # has inside aside for regular attributes the fields: customer, gdpr, account and credit_supplier 
+        loan_request_report     = initial_data.get("report", {})
+        environment             = initial_data.get("mock_environment", {})
+        # history               = initial_data.get("history", {})
+        environment["history"]  = initial_data.get("history", {})
 
         # --- 1. Customer Swimlane ---
         loan_request = await self.execute_ucon_human_task("fulfil_loan_info", loan_request, environment, common_timeout)
@@ -155,9 +156,10 @@ class LoanRequestWorkflowSignals:
         loan_request_report = await workflow.execute_activity(collect_rating_reports, loan_request_report, start_to_close_timeout=common_timeout)
 
         # The gateway can be replaced with an activity to check the condition
+        current_time_iso = workflow.now().replace(tzinfo=timezone.utc).isoformat()
         # --- Case loan accepted
         if loan_request_report.get("risk", 100) <= 60:
-            notif = {"msg": "Loan Approved", "approved": True,"time": datetime.now(timezone.utc).isoformat()}
+            notif = {"msg": "Loan Approved", "approved": True,"time": current_time_iso}
             await self.execute_ucon_human_task("send_approved_notification", loan_request_report, environment, common_timeout)
 
             # --- 5. Customer Swimlane (Notification) ---
@@ -172,7 +174,7 @@ class LoanRequestWorkflowSignals:
         
         # --- Case loan denied
         else:
-            notif = {"msg": "Loan Denied because of high risk", "approved": False,"time": datetime.now(timezone.utc).isoformat()}
+            notif = {"msg": "Loan Denied because of high risk", "approved": False,"time": current_time_iso}
             await workflow.execute_activity(send_negative_notification, notif, start_to_close_timeout=common_timeout)
 
             # --- 5. Customer Swimlane (Notification) ---

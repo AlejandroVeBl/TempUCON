@@ -1,5 +1,6 @@
 from temporalio import activity
 import asyncio
+from datetime import datetime, timezone
 
 @activity.defn
 async def fulfil_loan_info(info: dict) -> dict:
@@ -18,10 +19,12 @@ async def request_a_loan(loan_request: dict) -> dict:
 @activity.defn
 async def receive_notification(notification: dict) -> dict:
     activity.logger.info(f"Running receive_notification with parameter {notification}") 
-    msg = notification.get('msg','No message attached')
-    approved = notification.get('approved',False)
-    result = {'msg':msg, 'approved':approved}
-    return result
+    result = {
+        'msg': notification.get('msg', 'No message attached'),
+        'approved': notification.get('approved', False),
+        'time': notification.get('time')
+    }
+    return notification
 
 @activity.defn
 async def send_ack_receipt(notification: dict) -> dict:
