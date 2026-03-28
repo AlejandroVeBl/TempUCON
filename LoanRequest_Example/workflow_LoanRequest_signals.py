@@ -39,7 +39,7 @@ class LoanRequestWorkflowSignals:
             self.current_task_state = "completed"
             self.current_task_result = result or {}
 
-    async def execute_ucon_human_task(self, task_name: str, input_data: dict, common_timeout: timedelta) -> dict:
+    async def execute_ucon_human_task(self, task_name: str, object_data: dict, environment_data: dict, common_timeout: timedelta) -> dict:
         '''
         Function that abstracts the worflow from the nuances of running a human task with UCON policy checks
         This function uses signals itself to handle the Pre, On and Post policy checks for a given human task 
@@ -55,7 +55,7 @@ class LoanRequestWorkflowSignals:
             # Notify the external system there's a new pending activity
             await workflow.execute_activity(
                 notify_external_system,
-                {"task_name": task_name, "status": "pending", "data": input_data},
+                {"task_name": task_name, "status": "pending", "data": object_data},
                 start_to_close_timeout=common_timeout
             )
 
@@ -66,7 +66,7 @@ class LoanRequestWorkflowSignals:
             # Check the pre condition to see if they can actually claim that task
             pre_auth = await workflow.execute_activity(
                 check_opa_policy,
-                {"phase": "pre", "task": task_name, "user": self.current_task_assignee, "task_data": input_data},
+                {"phase": "pre", "task": task_name, "user": self.current_task_assignee, "object_data": object_data,"environment_data":environment_data},
                 start_to_close_timeout=common_timeout
             )
             
@@ -87,7 +87,7 @@ class LoanRequestWorkflowSignals:
                     # Time to check passed and it's still 'claimed'. Check On-Policies
                     on_auth = await workflow.execute_activity(
                         check_opa_policy,
-                        {"phase": "on", "task": task_name, "user": self.current_task_assignee, "task_data": input_data},
+                        {"phase": "on", "task": task_name, "user": self.current_task_assignee, "object_data": object_data,"environment_data":environment_data},
                         start_to_close_timeout=common_timeout
                     )
                     if not on_auth.get("allow"):
@@ -102,7 +102,7 @@ class LoanRequestWorkflowSignals:
             if self.current_task_state == "completed":
                 post_auth = await workflow.execute_activity(
                     check_opa_policy,
-                    {"phase": "post", "task": task_name, "user": self.current_task_assignee, "task_data": input_data, "result": self.current_task_result},
+                    {"phase": "post", "task": task_name, "user": self.current_task_assignee, "object_data": object_data,"environment_data":environment_data, "result": self.current_task_result},
                     start_to_close_timeout=common_timeout
                 )
                 
@@ -131,21 +131,23 @@ class LoanRequestWorkflowSignals:
         environment["history"] = initial_data.get("history", {})
 
         # --- 1. Customer Swimlane ---
-        loan_info = await self.execute_ucon_human_task("fulfil_loan_info", initial_data, common_timeout)
+        loan_request = await self.execute_ucon_human_task("fulfil_loan_info", loan_request, environment, common_timeout)
         
-        loan_request = await self.execute_ucon_human_task("request_a_loan", loan_info, common_timeout)
+        loan_request = await self.execute_ucon_human_task("request_a_loan", loan_request, environment, common_timeout)
 
         # --- 2. Supplier Swimlane ---
-        customer_data = await self.execute_ucon_human_task("collect_customer_information", loan_request, common_timeout)
+        loan_request = await self.execute_ucon_human_task("collect_customer_information", loan_request, environment, common_timeout)
 
-        loan_request = await workflow.execute_activity(request_report, customer_data, start_to_close_timeout=common_timeout)
+        loan_request = await workflow.execute_activity(request_report, loan_request, start_to_close_timeout=common_timeout)
 
         # --- 3. Staff Swimlane ---
-        received_req = await self.execute_ucon_human_task("receive_loan_request", loan_request, common_timeout)
+        loan_request = await self.execute_ucon_human_task("receive_loan_request", loan_request, environment, common_timeout)
         
+        loan_request_report["loan_request"]=loan_request
+
         # Perform evaluate_risk twice because of preA0(SoD) they have to be performed by separate users
-        loan_request_report = await self.execute_ucon_human_task("evaluate_risk_1", received_req, common_timeout)
-        loan_request_report = await self.execute_ucon_human_task("evaluate_risk_2", loan_request_report, common_timeout)
+        loan_request_report = await self.execute_ucon_human_task("evaluate_risk_1", loan_request_report, environment, common_timeout)
+        loan_request_report = await self.execute_ucon_human_task("evaluate_risk_2", loan_request_report, environment, common_timeout)
         
         loan_request_report = await workflow.execute_activity(send_rating_reports, loan_request_report, start_to_close_timeout=common_timeout)
 
@@ -155,24 +157,28 @@ class LoanRequestWorkflowSignals:
         # The gateway can be replaced with an activity to check the condition
         # --- Case loan accepted
         if loan_request_report.get("risk", 100) <= 60:
-            notif = {"msg": "Loan Approved", "approved": True}
-            await self.execute_ucon_human_task("send_approved_notification", notif, common_timeout)
+            notif = {"msg": "Loan Approved", "approved": True,"time": datetime.now(timezone.utc).isoformat()}
+            await self.execute_ucon_human_task("send_approved_notification", loan_request_report, environment, common_timeout)
 
             # --- 5. Customer Swimlane (Notification) ---
             notif_result = await workflow.execute_activity(receive_notification, notif, start_to_close_timeout=common_timeout)
             ack = await workflow.execute_activity(send_ack_receipt, notif_result, start_to_close_timeout=common_timeout)
 
             # -- Back to supplier swimlane after receiving the ack, open loan file 
-            await self.execute_ucon_human_task("open_loan_file", loan_request_report, common_timeout)
+
+            loan_request_report["loan_request"]["customerAccount"]["balance"]+=loan_request_report["loan_request"]["amount"] # preB3
+            loan_request_report["ack"] = ack # onB2
+            await self.execute_ucon_human_task("open_loan_file", loan_request_report, environment, common_timeout)
         
         # --- Case loan denied
         else:
-            notif = {"msg": "Loan Denied because of high risk", "approved": False}
+            notif = {"msg": "Loan Denied because of high risk", "approved": False,"time": datetime.now(timezone.utc).isoformat()}
             await workflow.execute_activity(send_negative_notification, notif, start_to_close_timeout=common_timeout)
 
             # --- 5. Customer Swimlane (Notification) ---
             notif_result = await workflow.execute_activity(receive_notification, notif, start_to_close_timeout=common_timeout)
             ack = await workflow.execute_activity(send_ack_receipt, notif_result, start_to_close_timeout=common_timeout)
+            loan_request_report["ack"] = ack # onB2
 
         # --- 6. Supplier Swimlane (Closing) ---
         loan_request_report = await workflow.execute_activity(close_loan_approval_file, loan_request_report, start_to_close_timeout=common_timeout)

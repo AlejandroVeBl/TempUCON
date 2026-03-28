@@ -50,7 +50,7 @@ async def main():
             # Customer Account
             "customerAccount": {
                 "accountNumber": "ES12345678901234567890",
-                "balance": 5000.00
+                "balance": 5000.00 # preB3 (has to be updated when approved)
             },
 
             # Credit Supplier
@@ -63,14 +63,16 @@ async def main():
         
         # Customer and workflow history
         "history": {
-            "active_loans": 2,    # preA3
-            "tasks_done": []      # preA0: To be filled with (task,user_it_was_done_by_id)
+            "active_loans": 2,              # preA3
+            "active_loan_reviews": 5,       # onA13
+            "pending_inactive_reports": 2,  # onA123
+            "tasks_done": []                # preA0: To be filled with (task,user_it_was_done_by_id)
         },
         
         # Loan Request Report
         "report": {
             "lastAccess": None,
-            "rate": 0.0,
+            "rate": 0.0, # onB13
             "sent": False,
             "risk": None  # ("VERY LOW"/"LOW"/"MEDIUM"/"HIGH"/"VERY HIGH")
         },
@@ -78,7 +80,7 @@ async def main():
         # Mock environment, would be gotten from the HTTP header
         "environment": {
             "device_type": "desktop",     # preC0 ("desktop"/"mobile")
-            "current_time": "10:00:00"    # onC0
+            "current_time": "10:00:00"    # onB0*, onC0
         }
     }
 
