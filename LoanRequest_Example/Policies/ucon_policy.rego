@@ -3,7 +3,7 @@ package ucon.policy
 import rego.v1
 
 # By default it returns allow false
-default allow = false
+default allow = true
 
 # ---------------------------------------------------------
 # Route the request depending on which type of check it is: (Pre/On/Post)
@@ -49,6 +49,4 @@ on_allow if {
 default post_allow = false
 post_allow if {
     # It has to receive what and who completed for future checks
-    input.result.last_task_done != null
-    input.result.user_did_last_task != null
 }

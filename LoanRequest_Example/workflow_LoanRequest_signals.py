@@ -9,7 +9,7 @@ with workflow.unsafe.imports_passed_through():
     from activities_staff import send_rating_reports
     from activities_supplier import request_report, collect_rating_reports, send_negative_notification, close_loan_approval_file
     # Import UCON activities
-    from activities_ucon import notify_external_system, check_opa_policy
+    from activities_ucon import notify_external_system, check_opa_policy, get_user_data
 
 @workflow.defn
 class LoanRequestWorkflowSignals:
@@ -28,7 +28,7 @@ class LoanRequestWorkflowSignals:
 
 
     @workflow.signal
-    def update_human_task(self, action: str, user: str, result: dict = None):
+    def update_human_task(self, action: str, user: str, result: dict = None, task_info: dict = None):
         '''
         Signal that receives the events from the outside server
         action: 'claim' (claim a task) or 'complete' (complete task)
@@ -39,6 +39,7 @@ class LoanRequestWorkflowSignals:
         elif action == "complete":
             self.current_task_state = "completed"
             self.current_task_result = result or {}
+            self.last_event_info = task_info
 
     async def execute_ucon_human_task(self, task_name: str, object_data: dict, environment_data: dict, common_timeout: timedelta) -> dict:
         '''
@@ -63,11 +64,18 @@ class LoanRequestWorkflowSignals:
             # --- PRE-Policy Checks ---
             # Wait for someone to claim the task
             await workflow.wait_condition(lambda: self.current_task_state == "claimed")
+            
+            # Get the user data from the current logged-in user
+            user_data = await workflow.execute_activity(
+                get_user_data,
+                self.current_task_assignee,
+                start_to_close_timeout=common_timeout
+            )
 
             # Check the pre condition to see if they can actually claim that task
             pre_auth = await workflow.execute_activity(
                 check_opa_policy,
-                {"phase": "pre", "task": task_name, "user": self.current_task_assignee, "object_data": object_data,"environment_data":environment_data},
+                {"phase": "pre", "task": task_name, "user_data": user_data, "object_data": object_data,"environment_data":environment_data},
                 start_to_close_timeout=common_timeout
             )
             
@@ -88,7 +96,7 @@ class LoanRequestWorkflowSignals:
                     # Time to check passed and it's still 'claimed'. Check On-Policies
                     on_auth = await workflow.execute_activity(
                         check_opa_policy,
-                        {"phase": "on", "task": task_name, "user": self.current_task_assignee, "object_data": object_data,"environment_data":environment_data},
+                        {"phase": "on", "task": task_name, "user_data": user_data, "object_data": object_data,"environment_data":environment_data},
                         start_to_close_timeout=common_timeout
                     )
                     if not on_auth.get("allow"):
@@ -101,9 +109,18 @@ class LoanRequestWorkflowSignals:
 
             # --- POST-Policy Checks ---
             if self.current_task_state == "completed":
+
+                # Add data to history when it's completed
+                new_history_entry = (task_name, self.current_task_assignee)
+                history_dict = environment_data.get("history", {})
+                if "tasks_done" not in history_dict or not isinstance(history_dict["tasks_done"], list):
+                    history_dict["tasks_done"] = []
+                history_dict["tasks_done"].append(new_history_entry)
+
+                # Post-check, after adding the history, in case it was neccesary
                 post_auth = await workflow.execute_activity(
                     check_opa_policy,
-                    {"phase": "post", "task": task_name, "user": self.current_task_assignee, "object_data": object_data,"environment_data":environment_data, "result": self.current_task_result},
+                    {"phase": "post", "task": task_name, "user_data": user_data, "object_data": object_data,"environment_data":environment_data, "result": self.current_task_result},
                     start_to_close_timeout=common_timeout
                 )
                 
@@ -112,6 +129,7 @@ class LoanRequestWorkflowSignals:
                     return self.current_task_result
                 else:
                     # Post-Check denied, back to pending
+                    history_dict["history"].pop() # Remove the history if it failed
                     continue
 
     # ------------------------------------------------ #
@@ -158,7 +176,8 @@ class LoanRequestWorkflowSignals:
         # The gateway can be replaced with an activity to check the condition
         current_time_iso = workflow.now().replace(tzinfo=timezone.utc).isoformat()
         # --- Case loan accepted
-        if loan_request_report.get("risk", 100) <= 60:
+        risk = loan_request_report.get("risk", "VERY HIGH")
+        if risk in ["LOW", "VERY LOW"]:            
             notif = {"msg": "Loan Approved", "approved": True,"time": current_time_iso}
             await self.execute_ucon_human_task("send_approved_notification", loan_request_report, environment, common_timeout)
 
@@ -190,6 +209,7 @@ class LoanRequestWorkflowSignals:
         final_summary = {
             "report": loan_request_report,
             "notification": notif,
+            "environment": environment,
             "status": "COMPLETED"
         }
         return final_summary

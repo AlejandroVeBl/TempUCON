@@ -23,7 +23,7 @@ with workflow.unsafe.imports_passed_through():
 
     # Ucon Import
     from activities_ucon import (
-        notify_external_system, check_opa_policy
+        notify_external_system, check_opa_policy, get_user_data
     )
 
 async def main():
@@ -39,7 +39,7 @@ async def main():
         receive_loan_request, evaluate_risk, send_rating_reports,
         collect_customer_information, request_report, collect_rating_reports,
         send_negative_notification, send_approved_notification, open_loan_file, close_loan_approval_file,
-        notify_external_system, check_opa_policy
+        notify_external_system, check_opa_policy, get_user_data
     ]
 
     worker = Worker(

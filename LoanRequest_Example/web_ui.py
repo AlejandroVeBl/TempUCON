@@ -19,6 +19,7 @@ class SignalRequest(BaseModel):
     user: str
     action: str  # "claim" or "complete"
     result_data: dict = None
+    task_completed_info: dict = None
 
 # Data model it expects to receive via the API to receive tasks
 class WebhookTask(BaseModel):
@@ -193,22 +194,26 @@ async def serve_webpage():
         }
 
         async function sendSignal(wfId, action, taskData, taskName) {
-            let resultData = taskData;
+            let payload = { 
+                workflow_id: wfId, 
+                user: currentUser, 
+                action: action, 
+                result_data: taskData // El objeto limpio (LoanRequest, etc.)
+            };
 
             // Add info of task done and by who if it's completed
             if (action === 'complete') {
-                resultData["last_task_done"] = taskName;
-                resultData["user_did_last_task"] = currentUser;
+                payload["task_completed_info"] = 
+                {
+                    task: taskName,
+                    user: currentUser,
+                    timestamp: new Date().toISOString()
+                };
             }
             await fetch('/api/signal', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                    workflow_id: wfId, 
-                    user: currentUser, 
-                    action: action, 
-                    result_data: resultData 
-                })
+                body: JSON.stringify(payload)
             });
             
             loadTasks();
@@ -252,12 +257,17 @@ async def handle_signal(req: SignalRequest):
         client = await Client.connect("localhost:7233")
         handle = client.get_workflow_handle(req.workflow_id)
         
+        # Debugging cleaning
+        clean_result = req.result_data.copy() if req.result_data else {}
+        clean_result.pop("last_task_done", None)
+        clean_result.pop("user_did_last_task", None)
+
         # Send the signal to the workflow
         await handle.signal(
             "update_human_task", 
-            args=[req.action, req.user, req.result_data]
+            args=[req.action, req.user, clean_result, req.task_completed_info]
         )
-        logging.info(f"Signal '{req.action}' sent to workflow {req.workflow_id} by the user {req.user}")
+        logging.info(f"Signal '{req.action}' sent. Task Info included: {req.task_completed_info is not None} by the user {req.user}")
 
         if req.workflow_id in tasks_db:
             if req.action == "claim":

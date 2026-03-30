@@ -2,6 +2,7 @@ import asyncio
 import uuid
 from temporalio.client import Client
 from temporalio import workflow
+from datetime import datetime, timezone
 
 async def main():
     client = await Client.connect("localhost:7233")
@@ -74,7 +75,7 @@ async def main():
             "lastAccess": None,
             "rate": 0.0, # onB13
             "sent": False,
-            "risk": None  # ("VERY LOW"/"LOW"/"MEDIUM"/"HIGH"/"VERY HIGH")
+            "risk": "LOW"  # ("VERY LOW"/"LOW"/"MEDIUM"/"HIGH"/"VERY HIGH")
         },
 
         # Mock environment, would be gotten from the HTTP header
@@ -88,7 +89,7 @@ async def main():
     # Workflow ID
     workflow_id = f"loan-workflow-{loan_id}"
 
-    print(f"Starting Loan Request for {loan_data['user']}...")
+    print(f"Starting Loan Request {loan_id} with data:\n {loan_data}...")
 
     result = await client.execute_workflow(
         "LoanRequestWorkflowSignals",

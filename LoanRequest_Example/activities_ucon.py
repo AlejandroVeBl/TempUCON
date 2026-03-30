@@ -40,13 +40,61 @@ async def notify_external_system(task_data: dict) -> dict:
         raise
 
 @activity.defn
+async def get_user_data(username: str) -> dict:
+    "Receives the username of an EasyAuth user and returns its data"
+    # --- Parameters for the Easy-Auth connection
+    EASYAUTH_BASE_URL = "http://127.0.0.1:8330" 
+    # Should't be hardcoded.
+    SERVICE_USER = "admin"
+    SERVICE_PASS = "zwygaazv"
+
+    activity.logger.info(f"Fetching EasyAuth data for user: {username}")
+    
+    async with aiohttp.ClientSession() as session:
+        # Login
+        auth_payload = {
+            "username": SERVICE_USER,
+            "password": SERVICE_PASS
+        }
+        
+        async with session.post(f"{EASYAUTH_BASE_URL}/auth/token", data=auth_payload) as token_response:
+            if token_response.status != 200:
+                error_text = await token_response.text()
+                # Raise exception if it fails so Temporal retries it
+                raise RuntimeError(f"Failure authenticating in EasyAuth: {error_text}")
+                
+            token_data = await token_response.json()
+            access_token = token_data.get("access_token")
+            
+        # Fetch user data adding the appropiate authorized token in the header
+        headers = {
+            "Authorization": f"Bearer {access_token}"
+        }
+        
+        async with session.get(f"{EASYAUTH_BASE_URL}/auth/users/{username}", headers=headers) as user_response:
+            if user_response.status != 200:
+                error_text = await user_response.text()
+                # Raise exception if it fails so Temporal retries it
+                raise RuntimeError(f"Failure fetching user {username}: {error_text}")
+                
+            user_data = await user_response.json()
+            return user_data
+
+@activity.defn
 async def check_opa_policy(data: dict) -> dict:
     '''
-    Receives the phase (pre,on,post) in data['phase]
-             the user in data['user']
-             and the task in data['task']
+    Function that receives the following dictionary:
 
-    TODO : It should send the following structure:
+    {
+        "phase": phase,
+        "task": task_name,
+        "user_data": {complete_user_data},
+        "object_data": {complete_object_data},
+        "environment_data": {complete_environmente_data}
+    }
+
+    And calls for the OPA API with the appropiate phase URL with the following dict:
+
     input : {
         action{
             phase,
@@ -69,12 +117,19 @@ async def check_opa_policy(data: dict) -> dict:
         }
     }
     '''
-    # This mimics the behavior of an OPA check
-    activity.logger.info(f"OPA {data['phase'].upper()}-AUTH check para {data['user']} en {data['task']}")
+    activity.logger.info(f"OPA {data['phase'].upper()}-AUTH check for {data['user_data']['username']} in {data['task']}")
 
     # URL of the OPA service
     opa_url = "http://localhost:8181/v1/data/ucon/policy" # This would be for a package ucon.policy 
 
+    input = dict()
+    action = dict()
+    action["phase"]=data["phase"]
+    action["task"]=data["task"]
+    input["action"]=action
+    input["subject"]=data["user_data"]
+    input["object"]=data["object_data"]
+    input["environment"]=data["environment_data"]
 
     # OPA expects the data under the "input" key
     payload = {
