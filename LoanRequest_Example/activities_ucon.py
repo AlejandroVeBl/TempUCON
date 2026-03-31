@@ -133,7 +133,7 @@ async def check_opa_policy(data: dict) -> dict:
 
     # OPA expects the data under the "input" key
     payload = {
-        "input": data
+        "input": input
     }
 
     # OPA connection

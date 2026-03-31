@@ -1,0 +1,2966 @@
+[INFO] Initializing server.
+  diagnostic-addrs = []
+  addrs = |
+      [
+        "localhost:8181"
+      ]
+
+[DEBUG] maxprocs: Leaving GOMAXPROCS=8: CPU quota undefined
+
+[DEBUG] watching path
+  path = "Policies"
+
+[DEBUG] Server initialized.
+
+[DEBUG] Sending request.
+  method = "GET"
+  url = "https://api.github.com/repos/open-policy-agent/opa/releases/latest"
+  headers = |
+      {
+        "User-Agent": [
+          "OPA-Version-Checker"
+        ]
+      }
+
+[DEBUG] Received response.
+  url = "https://api.github.com/repos/open-policy-agent/opa/releases/latest"
+  headers = |
+      {
+        "Accept-Ranges": [
+          "bytes"
+        ],
+        "Access-Control-Allow-Origin": [
+          "*"
+        ],
+        "Access-Control-Expose-Headers": [
+          "ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO, X-GitHub-Request-Id, Deprecation, Sunset"
+        ],
+        "Cache-Control": [
+          "public, max-age=60, s-maxage=60"
+        ],
+        "Content-Security-Policy": [
+          "default-src 'none'"
+        ],
+        "Content-Type": [
+          "application/json; charset=utf-8"
+        ],
+        "Date": [
+          "Tue, 31 Mar 2026 09:15:13 GMT"
+        ],
+        "Etag": [
+          "\"31812df1aad9c28d15b9eebe117f8bf7d63d979940394b24fb77be4c46566bd1\""
+        ],
+        "Last-Modified": [
+          "Mon, 30 Mar 2026 09:30:41 GMT"
+        ],
+        "Referrer-Policy": [
+          "origin-when-cross-origin, strict-origin-when-cross-origin"
+        ],
+        "Server": [
+          "github.com"
+        ],
+        "Strict-Transport-Security": [
+          "max-age=31536000; includeSubdomains; preload"
+        ],
+        "Vary": [
+          "Accept,Accept-Encoding, Accept, X-Requested-With"
+        ],
+        "X-Content-Type-Options": [
+          "nosniff"
+        ],
+        "X-Frame-Options": [
+          "deny"
+        ],
+        "X-Github-Api-Version-Selected": [
+          "2022-11-28"
+        ],
+        "X-Github-Media-Type": [
+          "github.v3; format=json"
+        ],
+        "X-Github-Request-Id": [
+          "45DF:B38D8:43F0D18:3C01436:69CB90AC"
+        ],
+        "X-Ratelimit-Limit": [
+          "60"
+        ],
+        "X-Ratelimit-Remaining": [
+          "59"
+        ],
+        "X-Ratelimit-Reset": [
+          "1774952124"
+        ],
+        "X-Ratelimit-Resource": [
+          "core"
+        ],
+        "X-Ratelimit-Used": [
+          "1"
+        ],
+        "X-Xss-Protection": [
+          "0"
+        ]
+      }
+  status = "200 OK"
+  method = "GET"
+
+[INFO] OPA is out of date.
+  download_opa = "https://openpolicyagent.org/downloads/v1.15.1/opa_linux_amd64"
+  release_notes = "https://github.com/open-policy-agent/opa/releases/tag/v1.15.1"
+  current_version = "1.14.1"
+  latest_version = "1.15.1"
+
+[INFO] Received request.
+  req_body = |
+      {
+        "input": {
+          "environment_data": {
+            "history": {
+              "active_loan_reviews": 5,
+              "active_loans": 2,
+              "pending_inactive_reports": 2,
+              "tasks_done": []
+            }
+          },
+          "object_data": {
+            "accepted": false,
+            "account": "ES12345678901234567890",
+            "amount": 25000,
+            "cost": 1000,
+            "creditSupplier": {
+              "address": "-, Sevilla",
+              "id": "supplier-01",
+              "name": "Bank 01"
+            },
+            "customer": {
+              "credentials": {
+                "revoked": false,
+                "validated": true
+              },
+              "email": "aleverbla@alum.us.es",
+              "id": "cust-ale-01",
+              "institution": "Universidad de Sevilla",
+              "lastAccess": "2026-03-30T11:39:10.750067+00:00",
+              "lastName": "Vera",
+              "name": "Ale",
+              "remuneration": 4000
+            },
+            "customerAccount": {
+              "accountNumber": "ES12345678901234567890",
+              "balance": 5000
+            },
+            "gpdrAgreement": {
+              "gpdrValidated": true
+            },
+            "id": "req-15a16432",
+            "loanTerms": true,
+            "notified": false,
+            "pending": true,
+            "timestamp": "2026-03-30T11:39:10.750048+00:00"
+          },
+          "phase": "pre",
+          "task": "fulfil_loan_info",
+          "user_data": {
+            "account_type": "user",
+            "email": "",
+            "full_name": "",
+            "groups": [
+              {
+                "group_name": "customer",
+                "roles": [
+                  {
+                    "actions": [
+                      {
+                        "action": "TAKE_CUSTOMER_ACTIVITY",
+                        "details": "Action that allows to take a customer activity"
+                      }
+                    ],
+                    "role": "customer"
+                  }
+                ]
+              }
+            ],
+            "password": "$2b$12$3OVRKhsphbkTbxTuhn7I/uyVg.Dv4M2Q3u1RIwANG5S3tk.efx4YW",
+            "permissions": {
+              "actions": [
+                "TAKE_CUSTOMER_ACTIVITY"
+              ],
+              "groups": [
+                "customer"
+              ],
+              "roles": [
+                "customer"
+              ],
+              "users": [
+                "customer1"
+              ]
+            },
+            "username": "customer1"
+          }
+        }
+      }
+  req_params = {}
+  client_addr = "127.0.0.1:60082"
+  req_id = 1
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+
+[INFO] >>> Evaluating PRE check. User: <undefined>
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+  line = "Policies/ucon_policy.rego:13"
+  client_addr = "127.0.0.1:60082"
+  req_id = 1
+
+[INFO] >>> Evaluating ON check. User: <undefined>
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+  line = "Policies/ucon_policy.rego:19"
+  client_addr = "127.0.0.1:60082"
+  req_id = 1
+
+[INFO] >>> Evaluating POST check. User: <undefined>
+  req_id = 1
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+  line = "Policies/ucon_policy.rego:25"
+  client_addr = "127.0.0.1:60082"
+
+[INFO] Sent response.
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+  resp_status = 200
+  resp_bytes = 79
+  resp_duration = 1.777944
+  resp_body = |
+      {"result":{"allow":true,"on_allow":false,"post_allow":true,"pre_allow":false}}
+      
+
+  client_addr = "127.0.0.1:60082"
+  req_id = 1
+
+[INFO] Received request.
+  req_body = |
+      {
+        "input": {
+          "environment_data": {
+            "history": {
+              "active_loan_reviews": 5,
+              "active_loans": 2,
+              "pending_inactive_reports": 2,
+              "tasks_done": [
+                [
+                  "fulfil_loan_info",
+                  "customer1"
+                ]
+              ]
+            }
+          },
+          "object_data": {
+            "accepted": false,
+            "account": "ES12345678901234567890",
+            "amount": 25000,
+            "cost": 1000,
+            "creditSupplier": {
+              "address": "-, Sevilla",
+              "id": "supplier-01",
+              "name": "Bank 01"
+            },
+            "customer": {
+              "credentials": {
+                "revoked": false,
+                "validated": true
+              },
+              "email": "aleverbla@alum.us.es",
+              "id": "cust-ale-01",
+              "institution": "Universidad de Sevilla",
+              "lastAccess": "2026-03-30T11:39:10.750067+00:00",
+              "lastName": "Vera",
+              "name": "Ale",
+              "remuneration": 4000
+            },
+            "customerAccount": {
+              "accountNumber": "ES12345678901234567890",
+              "balance": 5000
+            },
+            "gpdrAgreement": {
+              "gpdrValidated": true
+            },
+            "id": "req-15a16432",
+            "loanTerms": true,
+            "notified": false,
+            "pending": true,
+            "timestamp": "2026-03-30T11:39:10.750048+00:00"
+          },
+          "phase": "post",
+          "result": {
+            "accepted": false,
+            "account": "ES12345678901234567890",
+            "amount": 25000,
+            "cost": 1000,
+            "creditSupplier": {
+              "address": "-, Sevilla",
+              "id": "supplier-01",
+              "name": "Bank 01"
+            },
+            "customer": {
+              "credentials": {
+                "revoked": false,
+                "validated": true
+              },
+              "email": "aleverbla@alum.us.es",
+              "id": "cust-ale-01",
+              "institution": "Universidad de Sevilla",
+              "lastAccess": "2026-03-30T11:39:10.750067+00:00",
+              "lastName": "Vera",
+              "name": "Ale",
+              "remuneration": 4000
+            },
+            "customerAccount": {
+              "accountNumber": "ES12345678901234567890",
+              "balance": 5000
+            },
+            "gpdrAgreement": {
+              "gpdrValidated": true
+            },
+            "id": "req-15a16432",
+            "loanTerms": true,
+            "notified": false,
+            "pending": true,
+            "timestamp": "2026-03-30T11:39:10.750048+00:00"
+          },
+          "task": "fulfil_loan_info",
+          "user_data": {
+            "account_type": "user",
+            "email": "",
+            "full_name": "",
+            "groups": [
+              {
+                "group_name": "customer",
+                "roles": [
+                  {
+                    "actions": [
+                      {
+                        "action": "TAKE_CUSTOMER_ACTIVITY",
+                        "details": "Action that allows to take a customer activity"
+                      }
+                    ],
+                    "role": "customer"
+                  }
+                ]
+              }
+            ],
+            "password": "$2b$12$3OVRKhsphbkTbxTuhn7I/uyVg.Dv4M2Q3u1RIwANG5S3tk.efx4YW",
+            "permissions": {
+              "actions": [
+                "TAKE_CUSTOMER_ACTIVITY"
+              ],
+              "groups": [
+                "customer"
+              ],
+              "roles": [
+                "customer"
+              ],
+              "users": [
+                "customer1"
+              ]
+            },
+            "username": "customer1"
+          }
+        }
+      }
+  req_params = {}
+  client_addr = "127.0.0.1:60084"
+  req_id = 2
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+
+[INFO] >>> Evaluating PRE check. User: <undefined>
+  line = "Policies/ucon_policy.rego:13"
+  client_addr = "127.0.0.1:60084"
+  req_id = 2
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+
+[INFO] >>> Evaluating ON check. User: <undefined>
+  line = "Policies/ucon_policy.rego:19"
+  client_addr = "127.0.0.1:60084"
+  req_id = 2
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+
+[INFO] >>> Evaluating POST check. User: <undefined>
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+  line = "Policies/ucon_policy.rego:25"
+  client_addr = "127.0.0.1:60084"
+  req_id = 2
+
+[INFO] Sent response.
+  req_id = 2
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+  resp_status = 200
+  resp_bytes = 79
+  resp_duration = 1.676749
+  resp_body = |
+      {"result":{"allow":true,"on_allow":false,"post_allow":true,"pre_allow":false}}
+      
+
+  client_addr = "127.0.0.1:60084"
+
+[INFO] Received request.
+  req_path = "/v1/data/ucon/policy"
+  req_body = |
+      {
+        "input": {
+          "environment_data": {
+            "history": {
+              "active_loan_reviews": 5,
+              "active_loans": 2,
+              "pending_inactive_reports": 2,
+              "tasks_done": [
+                [
+                  "fulfil_loan_info",
+                  "customer1"
+                ]
+              ]
+            }
+          },
+          "object_data": {
+            "accepted": false,
+            "account": "ES12345678901234567890",
+            "amount": 25000,
+            "cost": 1000,
+            "creditSupplier": {
+              "address": "-, Sevilla",
+              "id": "supplier-01",
+              "name": "Bank 01"
+            },
+            "customer": {
+              "credentials": {
+                "revoked": false,
+                "validated": true
+              },
+              "email": "aleverbla@alum.us.es",
+              "id": "cust-ale-01",
+              "institution": "Universidad de Sevilla",
+              "lastAccess": "2026-03-30T11:39:10.750067+00:00",
+              "lastName": "Vera",
+              "name": "Ale",
+              "remuneration": 4000
+            },
+            "customerAccount": {
+              "accountNumber": "ES12345678901234567890",
+              "balance": 5000
+            },
+            "gpdrAgreement": {
+              "gpdrValidated": true
+            },
+            "id": "req-15a16432",
+            "loanTerms": true,
+            "notified": false,
+            "pending": true,
+            "timestamp": "2026-03-30T11:39:10.750048+00:00"
+          },
+          "phase": "pre",
+          "task": "request_a_loan",
+          "user_data": {
+            "account_type": "user",
+            "email": "",
+            "full_name": "",
+            "groups": [
+              {
+                "group_name": "customer",
+                "roles": [
+                  {
+                    "actions": [
+                      {
+                        "action": "TAKE_CUSTOMER_ACTIVITY",
+                        "details": "Action that allows to take a customer activity"
+                      }
+                    ],
+                    "role": "customer"
+                  }
+                ]
+              }
+            ],
+            "password": "$2b$12$3OVRKhsphbkTbxTuhn7I/uyVg.Dv4M2Q3u1RIwANG5S3tk.efx4YW",
+            "permissions": {
+              "actions": [
+                "TAKE_CUSTOMER_ACTIVITY"
+              ],
+              "groups": [
+                "customer"
+              ],
+              "roles": [
+                "customer"
+              ],
+              "users": [
+                "customer1"
+              ]
+            },
+            "username": "customer1"
+          }
+        }
+      }
+  req_params = {}
+  client_addr = "127.0.0.1:44704"
+  req_id = 3
+  req_method = "POST"
+
+[INFO] >>> Evaluating PRE check. User: <undefined>
+  client_addr = "127.0.0.1:44704"
+  req_id = 3
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+  line = "Policies/ucon_policy.rego:13"
+
+[INFO] >>> Evaluating ON check. User: <undefined>
+  client_addr = "127.0.0.1:44704"
+  req_id = 3
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+  line = "Policies/ucon_policy.rego:19"
+
+[INFO] >>> Evaluating POST check. User: <undefined>
+  line = "Policies/ucon_policy.rego:25"
+  client_addr = "127.0.0.1:44704"
+  req_id = 3
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+
+[INFO] Sent response.
+  resp_status = 200
+  resp_bytes = 79
+  resp_duration = 1.238177
+  resp_body = |
+      {"result":{"allow":true,"on_allow":false,"post_allow":true,"pre_allow":false}}
+      
+
+  client_addr = "127.0.0.1:44704"
+  req_id = 3
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+
+[INFO] Received request.
+  req_id = 4
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+  req_body = |
+      {
+        "input": {
+          "environment_data": {
+            "history": {
+              "active_loan_reviews": 5,
+              "active_loans": 2,
+              "pending_inactive_reports": 2,
+              "tasks_done": [
+                [
+                  "fulfil_loan_info",
+                  "customer1"
+                ]
+              ]
+            }
+          },
+          "object_data": {
+            "accepted": false,
+            "account": "ES12345678901234567890",
+            "amount": 25000,
+            "cost": 1000,
+            "creditSupplier": {
+              "address": "-, Sevilla",
+              "id": "supplier-01",
+              "name": "Bank 01"
+            },
+            "customer": {
+              "credentials": {
+                "revoked": false,
+                "validated": true
+              },
+              "email": "aleverbla@alum.us.es",
+              "id": "cust-ale-01",
+              "institution": "Universidad de Sevilla",
+              "lastAccess": "2026-03-30T11:39:10.750067+00:00",
+              "lastName": "Vera",
+              "name": "Ale",
+              "remuneration": 4000
+            },
+            "customerAccount": {
+              "accountNumber": "ES12345678901234567890",
+              "balance": 5000
+            },
+            "gpdrAgreement": {
+              "gpdrValidated": true
+            },
+            "id": "req-15a16432",
+            "loanTerms": true,
+            "notified": false,
+            "pending": true,
+            "timestamp": "2026-03-30T11:39:10.750048+00:00"
+          },
+          "phase": "on",
+          "task": "request_a_loan",
+          "user_data": {
+            "account_type": "user",
+            "email": "",
+            "full_name": "",
+            "groups": [
+              {
+                "group_name": "customer",
+                "roles": [
+                  {
+                    "actions": [
+                      {
+                        "action": "TAKE_CUSTOMER_ACTIVITY",
+                        "details": "Action that allows to take a customer activity"
+                      }
+                    ],
+                    "role": "customer"
+                  }
+                ]
+              }
+            ],
+            "password": "$2b$12$3OVRKhsphbkTbxTuhn7I/uyVg.Dv4M2Q3u1RIwANG5S3tk.efx4YW",
+            "permissions": {
+              "actions": [
+                "TAKE_CUSTOMER_ACTIVITY"
+              ],
+              "groups": [
+                "customer"
+              ],
+              "roles": [
+                "customer"
+              ],
+              "users": [
+                "customer1"
+              ]
+            },
+            "username": "customer1"
+          }
+        }
+      }
+  req_params = {}
+  client_addr = "127.0.0.1:51648"
+
+[INFO] >>> Evaluating PRE check. User: <undefined>
+  line = "Policies/ucon_policy.rego:13"
+  client_addr = "127.0.0.1:51648"
+  req_id = 4
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+
+[INFO] >>> Evaluating ON check. User: <undefined>
+  req_path = "/v1/data/ucon/policy"
+  line = "Policies/ucon_policy.rego:19"
+  client_addr = "127.0.0.1:51648"
+  req_id = 4
+  req_method = "POST"
+
+[INFO] >>> Evaluating POST check. User: <undefined>
+  req_path = "/v1/data/ucon/policy"
+  line = "Policies/ucon_policy.rego:25"
+  client_addr = "127.0.0.1:51648"
+  req_id = 4
+  req_method = "POST"
+
+[INFO] Sent response.
+  req_path = "/v1/data/ucon/policy"
+  resp_status = 200
+  resp_bytes = 79
+  resp_duration = 1.21526
+  resp_body = |
+      {"result":{"allow":true,"on_allow":false,"post_allow":true,"pre_allow":false}}
+      
+
+  client_addr = "127.0.0.1:51648"
+  req_id = 4
+  req_method = "POST"
+
+[INFO] Received request.
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+  req_body = |
+      {
+        "input": {
+          "environment_data": {
+            "history": {
+              "active_loan_reviews": 5,
+              "active_loans": 2,
+              "pending_inactive_reports": 2,
+              "tasks_done": [
+                [
+                  "fulfil_loan_info",
+                  "customer1"
+                ],
+                [
+                  "request_a_loan",
+                  "customer1"
+                ]
+              ]
+            }
+          },
+          "object_data": {
+            "accepted": false,
+            "account": "ES12345678901234567890",
+            "amount": 25000,
+            "cost": 1000,
+            "creditSupplier": {
+              "address": "-, Sevilla",
+              "id": "supplier-01",
+              "name": "Bank 01"
+            },
+            "customer": {
+              "credentials": {
+                "revoked": false,
+                "validated": true
+              },
+              "email": "aleverbla@alum.us.es",
+              "id": "cust-ale-01",
+              "institution": "Universidad de Sevilla",
+              "lastAccess": "2026-03-30T11:39:10.750067+00:00",
+              "lastName": "Vera",
+              "name": "Ale",
+              "remuneration": 4000
+            },
+            "customerAccount": {
+              "accountNumber": "ES12345678901234567890",
+              "balance": 5000
+            },
+            "gpdrAgreement": {
+              "gpdrValidated": true
+            },
+            "id": "req-15a16432",
+            "loanTerms": true,
+            "notified": false,
+            "pending": true,
+            "timestamp": "2026-03-30T11:39:10.750048+00:00"
+          },
+          "phase": "post",
+          "result": {
+            "accepted": false,
+            "account": "ES12345678901234567890",
+            "amount": 25000,
+            "cost": 1000,
+            "creditSupplier": {
+              "address": "-, Sevilla",
+              "id": "supplier-01",
+              "name": "Bank 01"
+            },
+            "customer": {
+              "credentials": {
+                "revoked": false,
+                "validated": true
+              },
+              "email": "aleverbla@alum.us.es",
+              "id": "cust-ale-01",
+              "institution": "Universidad de Sevilla",
+              "lastAccess": "2026-03-30T11:39:10.750067+00:00",
+              "lastName": "Vera",
+              "name": "Ale",
+              "remuneration": 4000
+            },
+            "customerAccount": {
+              "accountNumber": "ES12345678901234567890",
+              "balance": 5000
+            },
+            "gpdrAgreement": {
+              "gpdrValidated": true
+            },
+            "id": "req-15a16432",
+            "loanTerms": true,
+            "notified": false,
+            "pending": true,
+            "timestamp": "2026-03-30T11:39:10.750048+00:00"
+          },
+          "task": "request_a_loan",
+          "user_data": {
+            "account_type": "user",
+            "email": "",
+            "full_name": "",
+            "groups": [
+              {
+                "group_name": "customer",
+                "roles": [
+                  {
+                    "actions": [
+                      {
+                        "action": "TAKE_CUSTOMER_ACTIVITY",
+                        "details": "Action that allows to take a customer activity"
+                      }
+                    ],
+                    "role": "customer"
+                  }
+                ]
+              }
+            ],
+            "password": "$2b$12$3OVRKhsphbkTbxTuhn7I/uyVg.Dv4M2Q3u1RIwANG5S3tk.efx4YW",
+            "permissions": {
+              "actions": [
+                "TAKE_CUSTOMER_ACTIVITY"
+              ],
+              "groups": [
+                "customer"
+              ],
+              "roles": [
+                "customer"
+              ],
+              "users": [
+                "customer1"
+              ]
+            },
+            "username": "customer1"
+          }
+        }
+      }
+  req_params = {}
+  client_addr = "127.0.0.1:44756"
+  req_id = 5
+
+[INFO] >>> Evaluating PRE check. User: <undefined>
+  req_id = 5
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+  line = "Policies/ucon_policy.rego:13"
+  client_addr = "127.0.0.1:44756"
+
+[INFO] >>> Evaluating ON check. User: <undefined>
+  line = "Policies/ucon_policy.rego:19"
+  client_addr = "127.0.0.1:44756"
+  req_id = 5
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+
+[INFO] >>> Evaluating POST check. User: <undefined>
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+  line = "Policies/ucon_policy.rego:25"
+  client_addr = "127.0.0.1:44756"
+  req_id = 5
+
+[INFO] Sent response.
+  req_path = "/v1/data/ucon/policy"
+  resp_status = 200
+  resp_bytes = 79
+  resp_duration = 1.3604
+  resp_body = |
+      {"result":{"allow":true,"on_allow":false,"post_allow":true,"pre_allow":false}}
+      
+
+  client_addr = "127.0.0.1:44756"
+  req_id = 5
+  req_method = "POST"
+
+[INFO] Received request.
+  req_params = {}
+  client_addr = "127.0.0.1:47798"
+  req_id = 6
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+  req_body = |
+      {
+        "input": {
+          "environment_data": {
+            "history": {
+              "active_loan_reviews": 5,
+              "active_loans": 2,
+              "pending_inactive_reports": 2,
+              "tasks_done": [
+                [
+                  "fulfil_loan_info",
+                  "customer1"
+                ],
+                [
+                  "request_a_loan",
+                  "customer1"
+                ]
+              ]
+            }
+          },
+          "object_data": {
+            "accepted": false,
+            "account": "ES12345678901234567890",
+            "amount": 25000,
+            "cost": 1000,
+            "creditSupplier": {
+              "address": "-, Sevilla",
+              "id": "supplier-01",
+              "name": "Bank 01"
+            },
+            "customer": {
+              "credentials": {
+                "revoked": false,
+                "validated": true
+              },
+              "email": "aleverbla@alum.us.es",
+              "id": "cust-ale-01",
+              "institution": "Universidad de Sevilla",
+              "lastAccess": "2026-03-30T11:39:10.750067+00:00",
+              "lastName": "Vera",
+              "name": "Ale",
+              "remuneration": 4000
+            },
+            "customerAccount": {
+              "accountNumber": "ES12345678901234567890",
+              "balance": 5000
+            },
+            "gpdrAgreement": {
+              "gpdrValidated": true
+            },
+            "id": "req-15a16432",
+            "loanTerms": true,
+            "notified": false,
+            "pending": true,
+            "timestamp": "2026-03-30T11:39:10.750048+00:00"
+          },
+          "phase": "pre",
+          "task": "collect_customer_information",
+          "user_data": {
+            "account_type": "user",
+            "email": "",
+            "full_name": "",
+            "groups": [
+              {
+                "group_name": "customer",
+                "roles": [
+                  {
+                    "actions": [
+                      {
+                        "action": "TAKE_CUSTOMER_ACTIVITY",
+                        "details": "Action that allows to take a customer activity"
+                      }
+                    ],
+                    "role": "customer"
+                  }
+                ]
+              }
+            ],
+            "password": "$2b$12$3OVRKhsphbkTbxTuhn7I/uyVg.Dv4M2Q3u1RIwANG5S3tk.efx4YW",
+            "permissions": {
+              "actions": [
+                "TAKE_CUSTOMER_ACTIVITY"
+              ],
+              "groups": [
+                "customer"
+              ],
+              "roles": [
+                "customer"
+              ],
+              "users": [
+                "customer1"
+              ]
+            },
+            "username": "customer1"
+          }
+        }
+      }
+
+[INFO] >>> Evaluating PRE check. User: <undefined>
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+  line = "Policies/ucon_policy.rego:13"
+  client_addr = "127.0.0.1:47798"
+  req_id = 6
+
+[INFO] >>> Evaluating ON check. User: <undefined>
+  req_id = 6
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+  line = "Policies/ucon_policy.rego:19"
+  client_addr = "127.0.0.1:47798"
+
+[INFO] >>> Evaluating POST check. User: <undefined>
+  client_addr = "127.0.0.1:47798"
+  req_id = 6
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+  line = "Policies/ucon_policy.rego:25"
+
+[INFO] Sent response.
+  resp_bytes = 79
+  resp_duration = 1.076361
+  resp_body = |
+      {"result":{"allow":true,"on_allow":false,"post_allow":true,"pre_allow":false}}
+      
+
+  client_addr = "127.0.0.1:47798"
+  req_id = 6
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+  resp_status = 200
+
+[INFO] Received request.
+  req_path = "/v1/data/ucon/policy"
+  req_body = |
+      {
+        "input": {
+          "environment_data": {
+            "history": {
+              "active_loan_reviews": 5,
+              "active_loans": 2,
+              "pending_inactive_reports": 2,
+              "tasks_done": [
+                [
+                  "fulfil_loan_info",
+                  "customer1"
+                ],
+                [
+                  "request_a_loan",
+                  "customer1"
+                ],
+                [
+                  "collect_customer_information",
+                  "customer1"
+                ]
+              ]
+            }
+          },
+          "object_data": {
+            "accepted": false,
+            "account": "ES12345678901234567890",
+            "amount": 25000,
+            "cost": 1000,
+            "creditSupplier": {
+              "address": "-, Sevilla",
+              "id": "supplier-01",
+              "name": "Bank 01"
+            },
+            "customer": {
+              "credentials": {
+                "revoked": false,
+                "validated": true
+              },
+              "email": "aleverbla@alum.us.es",
+              "id": "cust-ale-01",
+              "institution": "Universidad de Sevilla",
+              "lastAccess": "2026-03-30T11:39:10.750067+00:00",
+              "lastName": "Vera",
+              "name": "Ale",
+              "remuneration": 4000
+            },
+            "customerAccount": {
+              "accountNumber": "ES12345678901234567890",
+              "balance": 5000
+            },
+            "gpdrAgreement": {
+              "gpdrValidated": true
+            },
+            "id": "req-15a16432",
+            "loanTerms": true,
+            "notified": false,
+            "pending": true,
+            "timestamp": "2026-03-30T11:39:10.750048+00:00"
+          },
+          "phase": "post",
+          "result": {
+            "accepted": false,
+            "account": "ES12345678901234567890",
+            "amount": 25000,
+            "cost": 1000,
+            "creditSupplier": {
+              "address": "-, Sevilla",
+              "id": "supplier-01",
+              "name": "Bank 01"
+            },
+            "customer": {
+              "credentials": {
+                "revoked": false,
+                "validated": true
+              },
+              "email": "aleverbla@alum.us.es",
+              "id": "cust-ale-01",
+              "institution": "Universidad de Sevilla",
+              "lastAccess": "2026-03-30T11:39:10.750067+00:00",
+              "lastName": "Vera",
+              "name": "Ale",
+              "remuneration": 4000
+            },
+            "customerAccount": {
+              "accountNumber": "ES12345678901234567890",
+              "balance": 5000
+            },
+            "gpdrAgreement": {
+              "gpdrValidated": true
+            },
+            "id": "req-15a16432",
+            "loanTerms": true,
+            "notified": false,
+            "pending": true,
+            "timestamp": "2026-03-30T11:39:10.750048+00:00"
+          },
+          "task": "collect_customer_information",
+          "user_data": {
+            "account_type": "user",
+            "email": "",
+            "full_name": "",
+            "groups": [
+              {
+                "group_name": "customer",
+                "roles": [
+                  {
+                    "actions": [
+                      {
+                        "action": "TAKE_CUSTOMER_ACTIVITY",
+                        "details": "Action that allows to take a customer activity"
+                      }
+                    ],
+                    "role": "customer"
+                  }
+                ]
+              }
+            ],
+            "password": "$2b$12$3OVRKhsphbkTbxTuhn7I/uyVg.Dv4M2Q3u1RIwANG5S3tk.efx4YW",
+            "permissions": {
+              "actions": [
+                "TAKE_CUSTOMER_ACTIVITY"
+              ],
+              "groups": [
+                "customer"
+              ],
+              "roles": [
+                "customer"
+              ],
+              "users": [
+                "customer1"
+              ]
+            },
+            "username": "customer1"
+          }
+        }
+      }
+  req_params = {}
+  client_addr = "127.0.0.1:47814"
+  req_id = 7
+  req_method = "POST"
+
+[INFO] >>> Evaluating PRE check. User: <undefined>
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+  line = "Policies/ucon_policy.rego:13"
+  client_addr = "127.0.0.1:47814"
+  req_id = 7
+
+[INFO] >>> Evaluating ON check. User: <undefined>
+  req_id = 7
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+  line = "Policies/ucon_policy.rego:19"
+  client_addr = "127.0.0.1:47814"
+
+[INFO] >>> Evaluating POST check. User: <undefined>
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+  line = "Policies/ucon_policy.rego:25"
+  client_addr = "127.0.0.1:47814"
+  req_id = 7
+
+[INFO] Sent response.
+  resp_duration = 3.990085
+  resp_body = |
+      {"result":{"allow":true,"on_allow":false,"post_allow":true,"pre_allow":false}}
+      
+
+  client_addr = "127.0.0.1:47814"
+  req_id = 7
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+  resp_status = 200
+  resp_bytes = 79
+
+[INFO] Received request.
+  client_addr = "127.0.0.1:47820"
+  req_id = 8
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+  req_body = |
+      {
+        "input": {
+          "environment_data": {
+            "history": {
+              "active_loan_reviews": 5,
+              "active_loans": 2,
+              "pending_inactive_reports": 2,
+              "tasks_done": [
+                [
+                  "fulfil_loan_info",
+                  "customer1"
+                ],
+                [
+                  "request_a_loan",
+                  "customer1"
+                ],
+                [
+                  "collect_customer_information",
+                  "customer1"
+                ]
+              ]
+            }
+          },
+          "object_data": {
+            "accepted": false,
+            "account": "ES12345678901234567890",
+            "amount": 25000,
+            "cost": 1000,
+            "creditSupplier": {
+              "address": "-, Sevilla",
+              "id": "supplier-01",
+              "name": "Bank 01"
+            },
+            "customer": {
+              "credentials": {
+                "revoked": false,
+                "validated": true
+              },
+              "email": "aleverbla@alum.us.es",
+              "id": "cust-ale-01",
+              "institution": "Universidad de Sevilla",
+              "lastAccess": "2026-03-30T11:39:10.750067+00:00",
+              "lastName": "Vera",
+              "name": "Ale",
+              "remuneration": 4000
+            },
+            "customerAccount": {
+              "accountNumber": "ES12345678901234567890",
+              "balance": 5000
+            },
+            "gpdrAgreement": {
+              "gpdrValidated": true
+            },
+            "id": "req-15a16432",
+            "loanTerms": true,
+            "notified": false,
+            "pending": true,
+            "timestamp": "2026-03-30T11:39:10.750048+00:00"
+          },
+          "phase": "pre",
+          "task": "receive_loan_request",
+          "user_data": {
+            "account_type": "user",
+            "email": "",
+            "full_name": "",
+            "groups": [
+              {
+                "group_name": "customer",
+                "roles": [
+                  {
+                    "actions": [
+                      {
+                        "action": "TAKE_CUSTOMER_ACTIVITY",
+                        "details": "Action that allows to take a customer activity"
+                      }
+                    ],
+                    "role": "customer"
+                  }
+                ]
+              }
+            ],
+            "password": "$2b$12$3OVRKhsphbkTbxTuhn7I/uyVg.Dv4M2Q3u1RIwANG5S3tk.efx4YW",
+            "permissions": {
+              "actions": [
+                "TAKE_CUSTOMER_ACTIVITY"
+              ],
+              "groups": [
+                "customer"
+              ],
+              "roles": [
+                "customer"
+              ],
+              "users": [
+                "customer1"
+              ]
+            },
+            "username": "customer1"
+          }
+        }
+      }
+  req_params = {}
+
+[INFO] >>> Evaluating PRE check. User: <undefined>
+  client_addr = "127.0.0.1:47820"
+  req_id = 8
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+  line = "Policies/ucon_policy.rego:13"
+
+[INFO] >>> Evaluating ON check. User: <undefined>
+  req_path = "/v1/data/ucon/policy"
+  line = "Policies/ucon_policy.rego:19"
+  client_addr = "127.0.0.1:47820"
+  req_id = 8
+  req_method = "POST"
+
+[INFO] >>> Evaluating POST check. User: <undefined>
+  req_path = "/v1/data/ucon/policy"
+  line = "Policies/ucon_policy.rego:25"
+  client_addr = "127.0.0.1:47820"
+  req_id = 8
+  req_method = "POST"
+
+[INFO] Sent response.
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+  resp_status = 200
+  resp_bytes = 79
+  resp_duration = 1.566251
+  resp_body = |
+      {"result":{"allow":true,"on_allow":false,"post_allow":true,"pre_allow":false}}
+      
+
+  client_addr = "127.0.0.1:47820"
+  req_id = 8
+
+[INFO] Received request.
+  client_addr = "127.0.0.1:47832"
+  req_id = 9
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+  req_body = |
+      {
+        "input": {
+          "environment_data": {
+            "history": {
+              "active_loan_reviews": 5,
+              "active_loans": 2,
+              "pending_inactive_reports": 2,
+              "tasks_done": [
+                [
+                  "fulfil_loan_info",
+                  "customer1"
+                ],
+                [
+                  "request_a_loan",
+                  "customer1"
+                ],
+                [
+                  "collect_customer_information",
+                  "customer1"
+                ],
+                [
+                  "receive_loan_request",
+                  "customer1"
+                ]
+              ]
+            }
+          },
+          "object_data": {
+            "accepted": false,
+            "account": "ES12345678901234567890",
+            "amount": 25000,
+            "cost": 1000,
+            "creditSupplier": {
+              "address": "-, Sevilla",
+              "id": "supplier-01",
+              "name": "Bank 01"
+            },
+            "customer": {
+              "credentials": {
+                "revoked": false,
+                "validated": true
+              },
+              "email": "aleverbla@alum.us.es",
+              "id": "cust-ale-01",
+              "institution": "Universidad de Sevilla",
+              "lastAccess": "2026-03-30T11:39:10.750067+00:00",
+              "lastName": "Vera",
+              "name": "Ale",
+              "remuneration": 4000
+            },
+            "customerAccount": {
+              "accountNumber": "ES12345678901234567890",
+              "balance": 5000
+            },
+            "gpdrAgreement": {
+              "gpdrValidated": true
+            },
+            "id": "req-15a16432",
+            "loanTerms": true,
+            "notified": false,
+            "pending": true,
+            "timestamp": "2026-03-30T11:39:10.750048+00:00"
+          },
+          "phase": "post",
+          "result": {
+            "accepted": false,
+            "account": "ES12345678901234567890",
+            "amount": 25000,
+            "cost": 1000,
+            "creditSupplier": {
+              "address": "-, Sevilla",
+              "id": "supplier-01",
+              "name": "Bank 01"
+            },
+            "customer": {
+              "credentials": {
+                "revoked": false,
+                "validated": true
+              },
+              "email": "aleverbla@alum.us.es",
+              "id": "cust-ale-01",
+              "institution": "Universidad de Sevilla",
+              "lastAccess": "2026-03-30T11:39:10.750067+00:00",
+              "lastName": "Vera",
+              "name": "Ale",
+              "remuneration": 4000
+            },
+            "customerAccount": {
+              "accountNumber": "ES12345678901234567890",
+              "balance": 5000
+            },
+            "gpdrAgreement": {
+              "gpdrValidated": true
+            },
+            "id": "req-15a16432",
+            "loanTerms": true,
+            "notified": false,
+            "pending": true,
+            "timestamp": "2026-03-30T11:39:10.750048+00:00"
+          },
+          "task": "receive_loan_request",
+          "user_data": {
+            "account_type": "user",
+            "email": "",
+            "full_name": "",
+            "groups": [
+              {
+                "group_name": "customer",
+                "roles": [
+                  {
+                    "actions": [
+                      {
+                        "action": "TAKE_CUSTOMER_ACTIVITY",
+                        "details": "Action that allows to take a customer activity"
+                      }
+                    ],
+                    "role": "customer"
+                  }
+                ]
+              }
+            ],
+            "password": "$2b$12$3OVRKhsphbkTbxTuhn7I/uyVg.Dv4M2Q3u1RIwANG5S3tk.efx4YW",
+            "permissions": {
+              "actions": [
+                "TAKE_CUSTOMER_ACTIVITY"
+              ],
+              "groups": [
+                "customer"
+              ],
+              "roles": [
+                "customer"
+              ],
+              "users": [
+                "customer1"
+              ]
+            },
+            "username": "customer1"
+          }
+        }
+      }
+  req_params = {}
+
+[INFO] >>> Evaluating PRE check. User: <undefined>
+  req_id = 9
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+  line = "Policies/ucon_policy.rego:13"
+  client_addr = "127.0.0.1:47832"
+
+[INFO] >>> Evaluating ON check. User: <undefined>
+  req_path = "/v1/data/ucon/policy"
+  line = "Policies/ucon_policy.rego:19"
+  client_addr = "127.0.0.1:47832"
+  req_id = 9
+  req_method = "POST"
+
+[INFO] >>> Evaluating POST check. User: <undefined>
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+  line = "Policies/ucon_policy.rego:25"
+  client_addr = "127.0.0.1:47832"
+  req_id = 9
+
+[INFO] Sent response.
+  resp_status = 200
+  resp_bytes = 79
+  resp_duration = 1.554186
+  resp_body = |
+      {"result":{"allow":true,"on_allow":false,"post_allow":true,"pre_allow":false}}
+      
+
+  client_addr = "127.0.0.1:47832"
+  req_id = 9
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+
+[INFO] Received request.
+  client_addr = "127.0.0.1:47840"
+  req_id = 10
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+  req_body = |
+      {
+        "input": {
+          "environment_data": {
+            "history": {
+              "active_loan_reviews": 5,
+              "active_loans": 2,
+              "pending_inactive_reports": 2,
+              "tasks_done": [
+                [
+                  "fulfil_loan_info",
+                  "customer1"
+                ],
+                [
+                  "request_a_loan",
+                  "customer1"
+                ],
+                [
+                  "collect_customer_information",
+                  "customer1"
+                ],
+                [
+                  "receive_loan_request",
+                  "customer1"
+                ]
+              ]
+            }
+          },
+          "object_data": {
+            "lastAccess": null,
+            "loan_request": {
+              "accepted": false,
+              "account": "ES12345678901234567890",
+              "amount": 25000,
+              "cost": 1000,
+              "creditSupplier": {
+                "address": "-, Sevilla",
+                "id": "supplier-01",
+                "name": "Bank 01"
+              },
+              "customer": {
+                "credentials": {
+                  "revoked": false,
+                  "validated": true
+                },
+                "email": "aleverbla@alum.us.es",
+                "id": "cust-ale-01",
+                "institution": "Universidad de Sevilla",
+                "lastAccess": "2026-03-30T11:39:10.750067+00:00",
+                "lastName": "Vera",
+                "name": "Ale",
+                "remuneration": 4000
+              },
+              "customerAccount": {
+                "accountNumber": "ES12345678901234567890",
+                "balance": 5000
+              },
+              "gpdrAgreement": {
+                "gpdrValidated": true
+              },
+              "id": "req-15a16432",
+              "loanTerms": true,
+              "notified": false,
+              "pending": true,
+              "timestamp": "2026-03-30T11:39:10.750048+00:00"
+            },
+            "rate": 0,
+            "risk": "LOW",
+            "sent": false
+          },
+          "phase": "pre",
+          "task": "evaluate_risk_1",
+          "user_data": {
+            "account_type": "user",
+            "email": "",
+            "full_name": "",
+            "groups": [
+              {
+                "group_name": "customer",
+                "roles": [
+                  {
+                    "actions": [
+                      {
+                        "action": "TAKE_CUSTOMER_ACTIVITY",
+                        "details": "Action that allows to take a customer activity"
+                      }
+                    ],
+                    "role": "customer"
+                  }
+                ]
+              }
+            ],
+            "password": "$2b$12$3OVRKhsphbkTbxTuhn7I/uyVg.Dv4M2Q3u1RIwANG5S3tk.efx4YW",
+            "permissions": {
+              "actions": [
+                "TAKE_CUSTOMER_ACTIVITY"
+              ],
+              "groups": [
+                "customer"
+              ],
+              "roles": [
+                "customer"
+              ],
+              "users": [
+                "customer1"
+              ]
+            },
+            "username": "customer1"
+          }
+        }
+      }
+  req_params = {}
+
+[INFO] >>> Evaluating PRE check. User: <undefined>
+  req_path = "/v1/data/ucon/policy"
+  line = "Policies/ucon_policy.rego:13"
+  client_addr = "127.0.0.1:47840"
+  req_id = 10
+  req_method = "POST"
+
+[INFO] >>> Evaluating ON check. User: <undefined>
+  line = "Policies/ucon_policy.rego:19"
+  client_addr = "127.0.0.1:47840"
+  req_id = 10
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+
+[INFO] >>> Evaluating POST check. User: <undefined>
+  req_id = 10
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+  line = "Policies/ucon_policy.rego:25"
+  client_addr = "127.0.0.1:47840"
+
+[INFO] Sent response.
+  resp_body = |
+      {"result":{"allow":true,"on_allow":false,"post_allow":true,"pre_allow":false}}
+      
+
+  client_addr = "127.0.0.1:47840"
+  req_id = 10
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+  resp_status = 200
+  resp_bytes = 79
+  resp_duration = 1.047797
+
+[INFO] Received request.
+  client_addr = "127.0.0.1:47856"
+  req_id = 11
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+  req_body = |
+      {
+        "input": {
+          "environment_data": {
+            "history": {
+              "active_loan_reviews": 5,
+              "active_loans": 2,
+              "pending_inactive_reports": 2,
+              "tasks_done": [
+                [
+                  "fulfil_loan_info",
+                  "customer1"
+                ],
+                [
+                  "request_a_loan",
+                  "customer1"
+                ],
+                [
+                  "collect_customer_information",
+                  "customer1"
+                ],
+                [
+                  "receive_loan_request",
+                  "customer1"
+                ],
+                [
+                  "evaluate_risk_1",
+                  "customer1"
+                ]
+              ]
+            }
+          },
+          "object_data": {
+            "lastAccess": null,
+            "loan_request": {
+              "accepted": false,
+              "account": "ES12345678901234567890",
+              "amount": 25000,
+              "cost": 1000,
+              "creditSupplier": {
+                "address": "-, Sevilla",
+                "id": "supplier-01",
+                "name": "Bank 01"
+              },
+              "customer": {
+                "credentials": {
+                  "revoked": false,
+                  "validated": true
+                },
+                "email": "aleverbla@alum.us.es",
+                "id": "cust-ale-01",
+                "institution": "Universidad de Sevilla",
+                "lastAccess": "2026-03-30T11:39:10.750067+00:00",
+                "lastName": "Vera",
+                "name": "Ale",
+                "remuneration": 4000
+              },
+              "customerAccount": {
+                "accountNumber": "ES12345678901234567890",
+                "balance": 5000
+              },
+              "gpdrAgreement": {
+                "gpdrValidated": true
+              },
+              "id": "req-15a16432",
+              "loanTerms": true,
+              "notified": false,
+              "pending": true,
+              "timestamp": "2026-03-30T11:39:10.750048+00:00"
+            },
+            "rate": 0,
+            "risk": "LOW",
+            "sent": false
+          },
+          "phase": "post",
+          "result": {
+            "lastAccess": null,
+            "loan_request": {
+              "accepted": false,
+              "account": "ES12345678901234567890",
+              "amount": 25000,
+              "cost": 1000,
+              "creditSupplier": {
+                "address": "-, Sevilla",
+                "id": "supplier-01",
+                "name": "Bank 01"
+              },
+              "customer": {
+                "credentials": {
+                  "revoked": false,
+                  "validated": true
+                },
+                "email": "aleverbla@alum.us.es",
+                "id": "cust-ale-01",
+                "institution": "Universidad de Sevilla",
+                "lastAccess": "2026-03-30T11:39:10.750067+00:00",
+                "lastName": "Vera",
+                "name": "Ale",
+                "remuneration": 4000
+              },
+              "customerAccount": {
+                "accountNumber": "ES12345678901234567890",
+                "balance": 5000
+              },
+              "gpdrAgreement": {
+                "gpdrValidated": true
+              },
+              "id": "req-15a16432",
+              "loanTerms": true,
+              "notified": false,
+              "pending": true,
+              "timestamp": "2026-03-30T11:39:10.750048+00:00"
+            },
+            "rate": 0,
+            "risk": "LOW",
+            "sent": false
+          },
+          "task": "evaluate_risk_1",
+          "user_data": {
+            "account_type": "user",
+            "email": "",
+            "full_name": "",
+            "groups": [
+              {
+                "group_name": "customer",
+                "roles": [
+                  {
+                    "actions": [
+                      {
+                        "action": "TAKE_CUSTOMER_ACTIVITY",
+                        "details": "Action that allows to take a customer activity"
+                      }
+                    ],
+                    "role": "customer"
+                  }
+                ]
+              }
+            ],
+            "password": "$2b$12$3OVRKhsphbkTbxTuhn7I/uyVg.Dv4M2Q3u1RIwANG5S3tk.efx4YW",
+            "permissions": {
+              "actions": [
+                "TAKE_CUSTOMER_ACTIVITY"
+              ],
+              "groups": [
+                "customer"
+              ],
+              "roles": [
+                "customer"
+              ],
+              "users": [
+                "customer1"
+              ]
+            },
+            "username": "customer1"
+          }
+        }
+      }
+  req_params = {}
+
+[INFO] >>> Evaluating PRE check. User: <undefined>
+  req_path = "/v1/data/ucon/policy"
+  line = "Policies/ucon_policy.rego:13"
+  client_addr = "127.0.0.1:47856"
+  req_id = 11
+  req_method = "POST"
+
+[INFO] >>> Evaluating ON check. User: <undefined>
+  client_addr = "127.0.0.1:47856"
+  req_id = 11
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+  line = "Policies/ucon_policy.rego:19"
+
+[INFO] >>> Evaluating POST check. User: <undefined>
+  req_id = 11
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+  line = "Policies/ucon_policy.rego:25"
+  client_addr = "127.0.0.1:47856"
+
+[INFO] Sent response.
+  req_id = 11
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+  resp_status = 200
+  resp_bytes = 79
+  resp_duration = 1.161913
+  resp_body = |
+      {"result":{"allow":true,"on_allow":false,"post_allow":true,"pre_allow":false}}
+      
+
+  client_addr = "127.0.0.1:47856"
+
+[INFO] Received request.
+  req_path = "/v1/data/ucon/policy"
+  req_body = |
+      {
+        "input": {
+          "environment_data": {
+            "history": {
+              "active_loan_reviews": 5,
+              "active_loans": 2,
+              "pending_inactive_reports": 2,
+              "tasks_done": [
+                [
+                  "fulfil_loan_info",
+                  "customer1"
+                ],
+                [
+                  "request_a_loan",
+                  "customer1"
+                ],
+                [
+                  "collect_customer_information",
+                  "customer1"
+                ],
+                [
+                  "receive_loan_request",
+                  "customer1"
+                ],
+                [
+                  "evaluate_risk_1",
+                  "customer1"
+                ]
+              ]
+            }
+          },
+          "object_data": {
+            "lastAccess": null,
+            "loan_request": {
+              "accepted": false,
+              "account": "ES12345678901234567890",
+              "amount": 25000,
+              "cost": 1000,
+              "creditSupplier": {
+                "address": "-, Sevilla",
+                "id": "supplier-01",
+                "name": "Bank 01"
+              },
+              "customer": {
+                "credentials": {
+                  "revoked": false,
+                  "validated": true
+                },
+                "email": "aleverbla@alum.us.es",
+                "id": "cust-ale-01",
+                "institution": "Universidad de Sevilla",
+                "lastAccess": "2026-03-30T11:39:10.750067+00:00",
+                "lastName": "Vera",
+                "name": "Ale",
+                "remuneration": 4000
+              },
+              "customerAccount": {
+                "accountNumber": "ES12345678901234567890",
+                "balance": 5000
+              },
+              "gpdrAgreement": {
+                "gpdrValidated": true
+              },
+              "id": "req-15a16432",
+              "loanTerms": true,
+              "notified": false,
+              "pending": true,
+              "timestamp": "2026-03-30T11:39:10.750048+00:00"
+            },
+            "rate": 0,
+            "risk": "LOW",
+            "sent": false
+          },
+          "phase": "pre",
+          "task": "evaluate_risk_2",
+          "user_data": {
+            "account_type": "user",
+            "email": "",
+            "full_name": "",
+            "groups": [
+              {
+                "group_name": "customer",
+                "roles": [
+                  {
+                    "actions": [
+                      {
+                        "action": "TAKE_CUSTOMER_ACTIVITY",
+                        "details": "Action that allows to take a customer activity"
+                      }
+                    ],
+                    "role": "customer"
+                  }
+                ]
+              }
+            ],
+            "password": "$2b$12$3OVRKhsphbkTbxTuhn7I/uyVg.Dv4M2Q3u1RIwANG5S3tk.efx4YW",
+            "permissions": {
+              "actions": [
+                "TAKE_CUSTOMER_ACTIVITY"
+              ],
+              "groups": [
+                "customer"
+              ],
+              "roles": [
+                "customer"
+              ],
+              "users": [
+                "customer1"
+              ]
+            },
+            "username": "customer1"
+          }
+        }
+      }
+  req_params = {}
+  client_addr = "127.0.0.1:47862"
+  req_id = 12
+  req_method = "POST"
+
+[INFO] >>> Evaluating PRE check. User: <undefined>
+  req_path = "/v1/data/ucon/policy"
+  line = "Policies/ucon_policy.rego:13"
+  client_addr = "127.0.0.1:47862"
+  req_id = 12
+  req_method = "POST"
+
+[INFO] >>> Evaluating ON check. User: <undefined>
+  req_id = 12
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+  line = "Policies/ucon_policy.rego:19"
+  client_addr = "127.0.0.1:47862"
+
+[INFO] >>> Evaluating POST check. User: <undefined>
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+  line = "Policies/ucon_policy.rego:25"
+  client_addr = "127.0.0.1:47862"
+  req_id = 12
+
+[INFO] Sent response.
+  req_path = "/v1/data/ucon/policy"
+  resp_status = 200
+  resp_bytes = 79
+  resp_duration = 1.348218
+  resp_body = |
+      {"result":{"allow":true,"on_allow":false,"post_allow":true,"pre_allow":false}}
+      
+
+  client_addr = "127.0.0.1:47862"
+  req_id = 12
+  req_method = "POST"
+
+[INFO] Received request.
+  req_id = 13
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+  req_body = |
+      {
+        "input": {
+          "environment_data": {
+            "history": {
+              "active_loan_reviews": 5,
+              "active_loans": 2,
+              "pending_inactive_reports": 2,
+              "tasks_done": [
+                [
+                  "fulfil_loan_info",
+                  "customer1"
+                ],
+                [
+                  "request_a_loan",
+                  "customer1"
+                ],
+                [
+                  "collect_customer_information",
+                  "customer1"
+                ],
+                [
+                  "receive_loan_request",
+                  "customer1"
+                ],
+                [
+                  "evaluate_risk_1",
+                  "customer1"
+                ],
+                [
+                  "evaluate_risk_2",
+                  "customer1"
+                ]
+              ]
+            }
+          },
+          "object_data": {
+            "lastAccess": null,
+            "loan_request": {
+              "accepted": false,
+              "account": "ES12345678901234567890",
+              "amount": 25000,
+              "cost": 1000,
+              "creditSupplier": {
+                "address": "-, Sevilla",
+                "id": "supplier-01",
+                "name": "Bank 01"
+              },
+              "customer": {
+                "credentials": {
+                  "revoked": false,
+                  "validated": true
+                },
+                "email": "aleverbla@alum.us.es",
+                "id": "cust-ale-01",
+                "institution": "Universidad de Sevilla",
+                "lastAccess": "2026-03-30T11:39:10.750067+00:00",
+                "lastName": "Vera",
+                "name": "Ale",
+                "remuneration": 4000
+              },
+              "customerAccount": {
+                "accountNumber": "ES12345678901234567890",
+                "balance": 5000
+              },
+              "gpdrAgreement": {
+                "gpdrValidated": true
+              },
+              "id": "req-15a16432",
+              "loanTerms": true,
+              "notified": false,
+              "pending": true,
+              "timestamp": "2026-03-30T11:39:10.750048+00:00"
+            },
+            "rate": 0,
+            "risk": "LOW",
+            "sent": false
+          },
+          "phase": "post",
+          "result": {
+            "lastAccess": null,
+            "loan_request": {
+              "accepted": false,
+              "account": "ES12345678901234567890",
+              "amount": 25000,
+              "cost": 1000,
+              "creditSupplier": {
+                "address": "-, Sevilla",
+                "id": "supplier-01",
+                "name": "Bank 01"
+              },
+              "customer": {
+                "credentials": {
+                  "revoked": false,
+                  "validated": true
+                },
+                "email": "aleverbla@alum.us.es",
+                "id": "cust-ale-01",
+                "institution": "Universidad de Sevilla",
+                "lastAccess": "2026-03-30T11:39:10.750067+00:00",
+                "lastName": "Vera",
+                "name": "Ale",
+                "remuneration": 4000
+              },
+              "customerAccount": {
+                "accountNumber": "ES12345678901234567890",
+                "balance": 5000
+              },
+              "gpdrAgreement": {
+                "gpdrValidated": true
+              },
+              "id": "req-15a16432",
+              "loanTerms": true,
+              "notified": false,
+              "pending": true,
+              "timestamp": "2026-03-30T11:39:10.750048+00:00"
+            },
+            "rate": 0,
+            "risk": "LOW",
+            "sent": false
+          },
+          "task": "evaluate_risk_2",
+          "user_data": {
+            "account_type": "user",
+            "email": "",
+            "full_name": "",
+            "groups": [
+              {
+                "group_name": "customer",
+                "roles": [
+                  {
+                    "actions": [
+                      {
+                        "action": "TAKE_CUSTOMER_ACTIVITY",
+                        "details": "Action that allows to take a customer activity"
+                      }
+                    ],
+                    "role": "customer"
+                  }
+                ]
+              }
+            ],
+            "password": "$2b$12$3OVRKhsphbkTbxTuhn7I/uyVg.Dv4M2Q3u1RIwANG5S3tk.efx4YW",
+            "permissions": {
+              "actions": [
+                "TAKE_CUSTOMER_ACTIVITY"
+              ],
+              "groups": [
+                "customer"
+              ],
+              "roles": [
+                "customer"
+              ],
+              "users": [
+                "customer1"
+              ]
+            },
+            "username": "customer1"
+          }
+        }
+      }
+  req_params = {}
+  client_addr = "127.0.0.1:47866"
+
+[INFO] >>> Evaluating PRE check. User: <undefined>
+  client_addr = "127.0.0.1:47866"
+  req_id = 13
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+  line = "Policies/ucon_policy.rego:13"
+
+[INFO] >>> Evaluating ON check. User: <undefined>
+  line = "Policies/ucon_policy.rego:19"
+  client_addr = "127.0.0.1:47866"
+  req_id = 13
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+
+[INFO] >>> Evaluating POST check. User: <undefined>
+  client_addr = "127.0.0.1:47866"
+  req_id = 13
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+  line = "Policies/ucon_policy.rego:25"
+
+[INFO] Sent response.
+  resp_body = |
+      {"result":{"allow":true,"on_allow":false,"post_allow":true,"pre_allow":false}}
+      
+
+  client_addr = "127.0.0.1:47866"
+  req_id = 13
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+  resp_status = 200
+  resp_bytes = 79
+  resp_duration = 1.267819
+
+[INFO] Received request.
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+  req_body = |
+      {
+        "input": {
+          "environment_data": {
+            "history": {
+              "active_loan_reviews": 5,
+              "active_loans": 2,
+              "pending_inactive_reports": 2,
+              "tasks_done": [
+                [
+                  "fulfil_loan_info",
+                  "customer1"
+                ],
+                [
+                  "request_a_loan",
+                  "customer1"
+                ],
+                [
+                  "collect_customer_information",
+                  "customer1"
+                ],
+                [
+                  "receive_loan_request",
+                  "customer1"
+                ],
+                [
+                  "evaluate_risk_1",
+                  "customer1"
+                ],
+                [
+                  "evaluate_risk_2",
+                  "customer1"
+                ]
+              ]
+            }
+          },
+          "object_data": {
+            "lastAccess": null,
+            "loan_request": {
+              "accepted": false,
+              "account": "ES12345678901234567890",
+              "amount": 25000,
+              "cost": 1000,
+              "creditSupplier": {
+                "address": "-, Sevilla",
+                "id": "supplier-01",
+                "name": "Bank 01"
+              },
+              "customer": {
+                "credentials": {
+                  "revoked": false,
+                  "validated": true
+                },
+                "email": "aleverbla@alum.us.es",
+                "id": "cust-ale-01",
+                "institution": "Universidad de Sevilla",
+                "lastAccess": "2026-03-30T11:39:10.750067+00:00",
+                "lastName": "Vera",
+                "name": "Ale",
+                "remuneration": 4000
+              },
+              "customerAccount": {
+                "accountNumber": "ES12345678901234567890",
+                "balance": 5000
+              },
+              "gpdrAgreement": {
+                "gpdrValidated": true
+              },
+              "id": "req-15a16432",
+              "loanTerms": true,
+              "notified": false,
+              "pending": true,
+              "timestamp": "2026-03-30T11:39:10.750048+00:00"
+            },
+            "rate": 0,
+            "risk": "LOW",
+            "sent": false
+          },
+          "phase": "pre",
+          "task": "send_approved_notification",
+          "user_data": {
+            "account_type": "user",
+            "email": "",
+            "full_name": "",
+            "groups": [
+              {
+                "group_name": "customer",
+                "roles": [
+                  {
+                    "actions": [
+                      {
+                        "action": "TAKE_CUSTOMER_ACTIVITY",
+                        "details": "Action that allows to take a customer activity"
+                      }
+                    ],
+                    "role": "customer"
+                  }
+                ]
+              }
+            ],
+            "password": "$2b$12$3OVRKhsphbkTbxTuhn7I/uyVg.Dv4M2Q3u1RIwANG5S3tk.efx4YW",
+            "permissions": {
+              "actions": [
+                "TAKE_CUSTOMER_ACTIVITY"
+              ],
+              "groups": [
+                "customer"
+              ],
+              "roles": [
+                "customer"
+              ],
+              "users": [
+                "customer1"
+              ]
+            },
+            "username": "customer1"
+          }
+        }
+      }
+  req_params = {}
+  client_addr = "127.0.0.1:50198"
+  req_id = 14
+
+[INFO] >>> Evaluating PRE check. User: <undefined>
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+  line = "Policies/ucon_policy.rego:13"
+  client_addr = "127.0.0.1:50198"
+  req_id = 14
+
+[INFO] >>> Evaluating ON check. User: <undefined>
+  req_path = "/v1/data/ucon/policy"
+  line = "Policies/ucon_policy.rego:19"
+  client_addr = "127.0.0.1:50198"
+  req_id = 14
+  req_method = "POST"
+
+[INFO] >>> Evaluating POST check. User: <undefined>
+  req_path = "/v1/data/ucon/policy"
+  line = "Policies/ucon_policy.rego:25"
+  client_addr = "127.0.0.1:50198"
+  req_id = 14
+  req_method = "POST"
+
+[INFO] Sent response.
+  resp_duration = 1.505537
+  resp_body = |
+      {"result":{"allow":true,"on_allow":false,"post_allow":true,"pre_allow":false}}
+      
+
+  client_addr = "127.0.0.1:50198"
+  req_id = 14
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+  resp_status = 200
+  resp_bytes = 79
+
+[INFO] Received request.
+  req_path = "/v1/data/ucon/policy"
+  req_body = |
+      {
+        "input": {
+          "environment_data": {
+            "history": {
+              "active_loan_reviews": 5,
+              "active_loans": 2,
+              "pending_inactive_reports": 2,
+              "tasks_done": [
+                [
+                  "fulfil_loan_info",
+                  "customer1"
+                ],
+                [
+                  "request_a_loan",
+                  "customer1"
+                ],
+                [
+                  "collect_customer_information",
+                  "customer1"
+                ],
+                [
+                  "receive_loan_request",
+                  "customer1"
+                ],
+                [
+                  "evaluate_risk_1",
+                  "customer1"
+                ],
+                [
+                  "evaluate_risk_2",
+                  "customer1"
+                ],
+                [
+                  "send_approved_notification",
+                  "customer1"
+                ]
+              ]
+            }
+          },
+          "object_data": {
+            "lastAccess": null,
+            "loan_request": {
+              "accepted": false,
+              "account": "ES12345678901234567890",
+              "amount": 25000,
+              "cost": 1000,
+              "creditSupplier": {
+                "address": "-, Sevilla",
+                "id": "supplier-01",
+                "name": "Bank 01"
+              },
+              "customer": {
+                "credentials": {
+                  "revoked": false,
+                  "validated": true
+                },
+                "email": "aleverbla@alum.us.es",
+                "id": "cust-ale-01",
+                "institution": "Universidad de Sevilla",
+                "lastAccess": "2026-03-30T11:39:10.750067+00:00",
+                "lastName": "Vera",
+                "name": "Ale",
+                "remuneration": 4000
+              },
+              "customerAccount": {
+                "accountNumber": "ES12345678901234567890",
+                "balance": 5000
+              },
+              "gpdrAgreement": {
+                "gpdrValidated": true
+              },
+              "id": "req-15a16432",
+              "loanTerms": true,
+              "notified": false,
+              "pending": true,
+              "timestamp": "2026-03-30T11:39:10.750048+00:00"
+            },
+            "rate": 0,
+            "risk": "LOW",
+            "sent": false
+          },
+          "phase": "post",
+          "result": {
+            "lastAccess": null,
+            "loan_request": {
+              "accepted": false,
+              "account": "ES12345678901234567890",
+              "amount": 25000,
+              "cost": 1000,
+              "creditSupplier": {
+                "address": "-, Sevilla",
+                "id": "supplier-01",
+                "name": "Bank 01"
+              },
+              "customer": {
+                "credentials": {
+                  "revoked": false,
+                  "validated": true
+                },
+                "email": "aleverbla@alum.us.es",
+                "id": "cust-ale-01",
+                "institution": "Universidad de Sevilla",
+                "lastAccess": "2026-03-30T11:39:10.750067+00:00",
+                "lastName": "Vera",
+                "name": "Ale",
+                "remuneration": 4000
+              },
+              "customerAccount": {
+                "accountNumber": "ES12345678901234567890",
+                "balance": 5000
+              },
+              "gpdrAgreement": {
+                "gpdrValidated": true
+              },
+              "id": "req-15a16432",
+              "loanTerms": true,
+              "notified": false,
+              "pending": true,
+              "timestamp": "2026-03-30T11:39:10.750048+00:00"
+            },
+            "rate": 0,
+            "risk": "LOW",
+            "sent": false
+          },
+          "task": "send_approved_notification",
+          "user_data": {
+            "account_type": "user",
+            "email": "",
+            "full_name": "",
+            "groups": [
+              {
+                "group_name": "customer",
+                "roles": [
+                  {
+                    "actions": [
+                      {
+                        "action": "TAKE_CUSTOMER_ACTIVITY",
+                        "details": "Action that allows to take a customer activity"
+                      }
+                    ],
+                    "role": "customer"
+                  }
+                ]
+              }
+            ],
+            "password": "$2b$12$3OVRKhsphbkTbxTuhn7I/uyVg.Dv4M2Q3u1RIwANG5S3tk.efx4YW",
+            "permissions": {
+              "actions": [
+                "TAKE_CUSTOMER_ACTIVITY"
+              ],
+              "groups": [
+                "customer"
+              ],
+              "roles": [
+                "customer"
+              ],
+              "users": [
+                "customer1"
+              ]
+            },
+            "username": "customer1"
+          }
+        }
+      }
+  req_params = {}
+  client_addr = "127.0.0.1:50208"
+  req_id = 15
+  req_method = "POST"
+
+[INFO] >>> Evaluating PRE check. User: <undefined>
+  req_path = "/v1/data/ucon/policy"
+  line = "Policies/ucon_policy.rego:13"
+  client_addr = "127.0.0.1:50208"
+  req_id = 15
+  req_method = "POST"
+
+[INFO] >>> Evaluating ON check. User: <undefined>
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+  line = "Policies/ucon_policy.rego:19"
+  client_addr = "127.0.0.1:50208"
+  req_id = 15
+
+[INFO] >>> Evaluating POST check. User: <undefined>
+  line = "Policies/ucon_policy.rego:25"
+  client_addr = "127.0.0.1:50208"
+  req_id = 15
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+
+[INFO] Sent response.
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+  resp_status = 200
+  resp_bytes = 79
+  resp_duration = 1.5946
+  resp_body = |
+      {"result":{"allow":true,"on_allow":false,"post_allow":true,"pre_allow":false}}
+      
+
+  client_addr = "127.0.0.1:50208"
+  req_id = 15
+
+[INFO] Received request.
+  client_addr = "127.0.0.1:50222"
+  req_id = 16
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+  req_body = |
+      {
+        "input": {
+          "environment_data": {
+            "history": {
+              "active_loan_reviews": 5,
+              "active_loans": 2,
+              "pending_inactive_reports": 2,
+              "tasks_done": [
+                [
+                  "fulfil_loan_info",
+                  "customer1"
+                ],
+                [
+                  "request_a_loan",
+                  "customer1"
+                ],
+                [
+                  "collect_customer_information",
+                  "customer1"
+                ],
+                [
+                  "receive_loan_request",
+                  "customer1"
+                ],
+                [
+                  "evaluate_risk_1",
+                  "customer1"
+                ],
+                [
+                  "evaluate_risk_2",
+                  "customer1"
+                ],
+                [
+                  "send_approved_notification",
+                  "customer1"
+                ]
+              ]
+            }
+          },
+          "object_data": {
+            "ack": {
+              "ack": true,
+              "days": 0,
+              "notification": {
+                "approved": true,
+                "msg": "Loan Approved",
+                "time": "2026-03-31T09:16:51.667491+00:00"
+              }
+            },
+            "lastAccess": null,
+            "loan_request": {
+              "accepted": false,
+              "account": "ES12345678901234567890",
+              "amount": 25000,
+              "cost": 1000,
+              "creditSupplier": {
+                "address": "-, Sevilla",
+                "id": "supplier-01",
+                "name": "Bank 01"
+              },
+              "customer": {
+                "credentials": {
+                  "revoked": false,
+                  "validated": true
+                },
+                "email": "aleverbla@alum.us.es",
+                "id": "cust-ale-01",
+                "institution": "Universidad de Sevilla",
+                "lastAccess": "2026-03-30T11:39:10.750067+00:00",
+                "lastName": "Vera",
+                "name": "Ale",
+                "remuneration": 4000
+              },
+              "customerAccount": {
+                "accountNumber": "ES12345678901234567890",
+                "balance": 30000
+              },
+              "gpdrAgreement": {
+                "gpdrValidated": true
+              },
+              "id": "req-15a16432",
+              "loanTerms": true,
+              "notified": false,
+              "pending": true,
+              "timestamp": "2026-03-30T11:39:10.750048+00:00"
+            },
+            "rate": 0,
+            "risk": "LOW",
+            "sent": false
+          },
+          "phase": "pre",
+          "task": "open_loan_file",
+          "user_data": {
+            "account_type": "user",
+            "email": "",
+            "full_name": "",
+            "groups": [
+              {
+                "group_name": "customer",
+                "roles": [
+                  {
+                    "actions": [
+                      {
+                        "action": "TAKE_CUSTOMER_ACTIVITY",
+                        "details": "Action that allows to take a customer activity"
+                      }
+                    ],
+                    "role": "customer"
+                  }
+                ]
+              }
+            ],
+            "password": "$2b$12$3OVRKhsphbkTbxTuhn7I/uyVg.Dv4M2Q3u1RIwANG5S3tk.efx4YW",
+            "permissions": {
+              "actions": [
+                "TAKE_CUSTOMER_ACTIVITY"
+              ],
+              "groups": [
+                "customer"
+              ],
+              "roles": [
+                "customer"
+              ],
+              "users": [
+                "customer1"
+              ]
+            },
+            "username": "customer1"
+          }
+        }
+      }
+  req_params = {}
+
+[INFO] >>> Evaluating PRE check. User: <undefined>
+  line = "Policies/ucon_policy.rego:13"
+  client_addr = "127.0.0.1:50222"
+  req_id = 16
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+
+[INFO] >>> Evaluating ON check. User: <undefined>
+  req_path = "/v1/data/ucon/policy"
+  line = "Policies/ucon_policy.rego:19"
+  client_addr = "127.0.0.1:50222"
+  req_id = 16
+  req_method = "POST"
+
+[INFO] >>> Evaluating POST check. User: <undefined>
+  req_path = "/v1/data/ucon/policy"
+  line = "Policies/ucon_policy.rego:25"
+  client_addr = "127.0.0.1:50222"
+  req_id = 16
+  req_method = "POST"
+
+[INFO] Sent response.
+  req_id = 16
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+  resp_status = 200
+  resp_bytes = 79
+  resp_duration = 1.282467
+  resp_body = |
+      {"result":{"allow":true,"on_allow":false,"post_allow":true,"pre_allow":false}}
+      
+
+  client_addr = "127.0.0.1:50222"
+
+[INFO] Received request.
+  req_path = "/v1/data/ucon/policy"
+  req_body = |
+      {
+        "input": {
+          "environment_data": {
+            "history": {
+              "active_loan_reviews": 5,
+              "active_loans": 2,
+              "pending_inactive_reports": 2,
+              "tasks_done": [
+                [
+                  "fulfil_loan_info",
+                  "customer1"
+                ],
+                [
+                  "request_a_loan",
+                  "customer1"
+                ],
+                [
+                  "collect_customer_information",
+                  "customer1"
+                ],
+                [
+                  "receive_loan_request",
+                  "customer1"
+                ],
+                [
+                  "evaluate_risk_1",
+                  "customer1"
+                ],
+                [
+                  "evaluate_risk_2",
+                  "customer1"
+                ],
+                [
+                  "send_approved_notification",
+                  "customer1"
+                ],
+                [
+                  "open_loan_file",
+                  "customer1"
+                ]
+              ]
+            }
+          },
+          "object_data": {
+            "ack": {
+              "ack": true,
+              "days": 0,
+              "notification": {
+                "approved": true,
+                "msg": "Loan Approved",
+                "time": "2026-03-31T09:16:51.667491+00:00"
+              }
+            },
+            "lastAccess": null,
+            "loan_request": {
+              "accepted": false,
+              "account": "ES12345678901234567890",
+              "amount": 25000,
+              "cost": 1000,
+              "creditSupplier": {
+                "address": "-, Sevilla",
+                "id": "supplier-01",
+                "name": "Bank 01"
+              },
+              "customer": {
+                "credentials": {
+                  "revoked": false,
+                  "validated": true
+                },
+                "email": "aleverbla@alum.us.es",
+                "id": "cust-ale-01",
+                "institution": "Universidad de Sevilla",
+                "lastAccess": "2026-03-30T11:39:10.750067+00:00",
+                "lastName": "Vera",
+                "name": "Ale",
+                "remuneration": 4000
+              },
+              "customerAccount": {
+                "accountNumber": "ES12345678901234567890",
+                "balance": 30000
+              },
+              "gpdrAgreement": {
+                "gpdrValidated": true
+              },
+              "id": "req-15a16432",
+              "loanTerms": true,
+              "notified": false,
+              "pending": true,
+              "timestamp": "2026-03-30T11:39:10.750048+00:00"
+            },
+            "rate": 0,
+            "risk": "LOW",
+            "sent": false
+          },
+          "phase": "post",
+          "result": {
+            "ack": {
+              "ack": true,
+              "days": 0,
+              "notification": {
+                "approved": true,
+                "msg": "Loan Approved",
+                "time": "2026-03-31T09:16:51.667491+00:00"
+              }
+            },
+            "lastAccess": null,
+            "loan_request": {
+              "accepted": false,
+              "account": "ES12345678901234567890",
+              "amount": 25000,
+              "cost": 1000,
+              "creditSupplier": {
+                "address": "-, Sevilla",
+                "id": "supplier-01",
+                "name": "Bank 01"
+              },
+              "customer": {
+                "credentials": {
+                  "revoked": false,
+                  "validated": true
+                },
+                "email": "aleverbla@alum.us.es",
+                "id": "cust-ale-01",
+                "institution": "Universidad de Sevilla",
+                "lastAccess": "2026-03-30T11:39:10.750067+00:00",
+                "lastName": "Vera",
+                "name": "Ale",
+                "remuneration": 4000
+              },
+              "customerAccount": {
+                "accountNumber": "ES12345678901234567890",
+                "balance": 30000
+              },
+              "gpdrAgreement": {
+                "gpdrValidated": true
+              },
+              "id": "req-15a16432",
+              "loanTerms": true,
+              "notified": false,
+              "pending": true,
+              "timestamp": "2026-03-30T11:39:10.750048+00:00"
+            },
+            "rate": 0,
+            "risk": "LOW",
+            "sent": false
+          },
+          "task": "open_loan_file",
+          "user_data": {
+            "account_type": "user",
+            "email": "",
+            "full_name": "",
+            "groups": [
+              {
+                "group_name": "customer",
+                "roles": [
+                  {
+                    "actions": [
+                      {
+                        "action": "TAKE_CUSTOMER_ACTIVITY",
+                        "details": "Action that allows to take a customer activity"
+                      }
+                    ],
+                    "role": "customer"
+                  }
+                ]
+              }
+            ],
+            "password": "$2b$12$3OVRKhsphbkTbxTuhn7I/uyVg.Dv4M2Q3u1RIwANG5S3tk.efx4YW",
+            "permissions": {
+              "actions": [
+                "TAKE_CUSTOMER_ACTIVITY"
+              ],
+              "groups": [
+                "customer"
+              ],
+              "roles": [
+                "customer"
+              ],
+              "users": [
+                "customer1"
+              ]
+            },
+            "username": "customer1"
+          }
+        }
+      }
+  req_params = {}
+  client_addr = "127.0.0.1:50224"
+  req_id = 17
+  req_method = "POST"
+
+[INFO] >>> Evaluating PRE check. User: <undefined>
+  client_addr = "127.0.0.1:50224"
+  req_id = 17
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+  line = "Policies/ucon_policy.rego:13"
+
+[INFO] >>> Evaluating ON check. User: <undefined>
+  client_addr = "127.0.0.1:50224"
+  req_id = 17
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+  line = "Policies/ucon_policy.rego:19"
+
+[INFO] >>> Evaluating POST check. User: <undefined>
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+  line = "Policies/ucon_policy.rego:25"
+  client_addr = "127.0.0.1:50224"
+  req_id = 17
+
+[INFO] Sent response.
+  resp_status = 200
+  resp_bytes = 79
+  resp_duration = 1.420973
+  resp_body = |
+      {"result":{"allow":true,"on_allow":false,"post_allow":true,"pre_allow":false}}
+      
+
+  client_addr = "127.0.0.1:50224"
+  req_id = 17
+  req_method = "POST"
+  req_path = "/v1/data/ucon/policy"
+

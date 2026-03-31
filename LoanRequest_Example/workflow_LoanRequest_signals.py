@@ -129,7 +129,7 @@ class LoanRequestWorkflowSignals:
                     return self.current_task_result
                 else:
                     # Post-Check denied, back to pending
-                    history_dict["history"].pop() # Remove the history if it failed
+                    history_dict["tasks_done"].pop() # Remove the history if it failed
                     continue
 
     # ------------------------------------------------ #
