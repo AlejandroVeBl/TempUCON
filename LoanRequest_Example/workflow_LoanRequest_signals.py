@@ -145,7 +145,7 @@ class LoanRequestWorkflowSignals:
         # Objects from the initial data
         loan_request            = initial_data.get("loan_request", {}) # has inside aside for regular attributes the fields: customer, gdpr, account and credit_supplier 
         loan_request_report     = initial_data.get("report", {})
-        environment             = initial_data.get("mock_environment", {})
+        environment             = initial_data.get("environment", {})
         # history               = initial_data.get("history", {})
         environment["history"]  = initial_data.get("history", {})
 
@@ -187,8 +187,15 @@ class LoanRequestWorkflowSignals:
 
             # -- Back to supplier swimlane after receiving the ack, open loan file 
 
-            loan_request_report["loan_request"]["customerAccount"]["balance"]+=loan_request_report["loan_request"]["amount"] # preB3
+            # preB3: update the balance (ofc this would all be an activity updating a db in a real scenario)
+            old_balance = loan_request_report["loan_request"]["customerAccount"]["balance"]
+            loan_request_report["loan_request"]["customerAccount"]["old_balance"] = old_balance
+            amount = loan_request_report["loan_request"]["amount"]
+            cost = loan_request_report["loan_request"]["cost"]
+            loan_request_report["loan_request"]["customerAccount"]["balance"] = (old_balance + amount) - cost
+
             loan_request_report["ack"] = ack # onB2
+            
             await self.execute_ucon_human_task("open_loan_file", loan_request_report, environment, common_timeout)
         
         # --- Case loan denied

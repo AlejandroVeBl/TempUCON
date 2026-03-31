@@ -119,21 +119,23 @@ async def check_opa_policy(data: dict) -> dict:
     '''
     activity.logger.info(f"OPA {data['phase'].upper()}-AUTH check for {data['user_data']['username']} in {data['task']}")
 
-    # URL of the OPA service
-    opa_url = "http://localhost:8181/v1/data/ucon/policy" # This would be for a package ucon.policy 
 
-    input = dict()
+    # URL of the OPA service
+    phase = data["phase"].lower() # pre/on/post
+    opa_url = f"http://localhost:8181/v1/data/ucon/{phase}" # This would be for a package ucon.(pre/on/post) 
+
+    opa_input = dict()
     action = dict()
     action["phase"]=data["phase"]
     action["task"]=data["task"]
-    input["action"]=action
-    input["subject"]=data["user_data"]
-    input["object"]=data["object_data"]
-    input["environment"]=data["environment_data"]
+    opa_input["action"]=action
+    opa_input["subject"]=data["user_data"]
+    opa_input["object"]=data["object_data"]
+    opa_input["environment"]=data["environment_data"]
 
     # OPA expects the data under the "input" key
     payload = {
-        "input": input
+        "input": opa_input
     }
 
     # OPA connection

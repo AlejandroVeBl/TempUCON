@@ -81,7 +81,8 @@ async def main():
         # Mock environment, would be gotten from the HTTP header
         "environment": {
             "device_type": "desktop",     # preC0 ("desktop"/"mobile")
-            "current_time": "10:00:00"    # onB0*, onC0
+            "current_time": "10:00:00",    # onC0
+            "control_time_system_active": True # onB0
         }
     }
 
