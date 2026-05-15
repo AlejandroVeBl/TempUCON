@@ -107,11 +107,14 @@ async def check_opa_policy(data: dict) -> dict:
             ...  # Possible ones are LoanRequest, LoanRequestReport, *account, task
         },
         environment{
-            history[
-                [task,user_done_it],
-                [task,user_done_it],
+            history{
+                tasks_done: [
+                    [task,user_done_it],
+                    [task,user_done_it],
+                    ...
+                ]
                 ...
-            ],
+            },
             device,
             time
         }

@@ -7,7 +7,6 @@ import logging
 with workflow.unsafe.imports_passed_through():
     # Workflow Import
     from workflow_atomic import AtomicUconWorkflow
-    
 
     # Ucon Import
     from activities_ucon import (

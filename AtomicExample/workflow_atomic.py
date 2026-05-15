@@ -88,6 +88,7 @@ class AtomicUconWorkflow:
                         lambda: self.current_task_state == "completed",
                         timeout=OnPolicyChecksTime # Frequency to be checked
                     )
+                    # object_data["customer"]["credentials"]["validated"] = False
                 except asyncio.TimeoutError:
                     # Time to check passed and it's still 'claimed'. Check On-Policies
                     on_auth = await workflow.execute_activity(

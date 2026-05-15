@@ -75,7 +75,7 @@ async def serve_webpage():
         <div id="dashboardScreen">
             <h1>Task Dashboard</h1>
             <div class="user-bar">
-                <span><b>Usuario Activo:</b> <span id="displayUser" style="color:#2980b9; font-weight:bold;"></span></span>
+                <span><b>Active User:</b> <span id="displayUser" style="color:#2980b9; font-weight:bold;"></span></span>
                 <div>
                     <button class="btn btn-primary" onclick="loadTasks()">Refresh</button>
                     <button class="btn" style="background:#e74c3c; margin-left:10px;" onclick="logout()">Logout</button>
@@ -198,7 +198,7 @@ async def serve_webpage():
                 workflow_id: wfId, 
                 user: currentUser, 
                 action: action, 
-                result_data: taskData // El objeto limpio (LoanRequest, etc.)
+                result_data: taskData // Clean Object (LoanRequest, etc.)
             };
 
             // Add info of task done and by who if it's completed

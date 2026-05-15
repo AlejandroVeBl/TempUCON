@@ -13,16 +13,15 @@ async def main():
     atomic_data = {
         "object": {
             "id": test_id,
-            "descripcion": "Objeto de prueba para flujo UCON atómico",
-            # Aquí se guardará el result_A cuando termine la primera actividad
+            "descripcion": "Test Object for the atomic UCON example",
         },
         
         # Simulated environment with fields and the history
         "environment": {
-            "time_hour": 10,  # For example onA in the paper
+            "time_hour": 10,  
             "device_type": "desktop",
             "history": {
-                "tasks_done": [] # For example preB in the paper (Separation of Duties)
+                "tasks_done": []
             }
         }
     }
