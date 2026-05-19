@@ -67,8 +67,8 @@ passes_ucon if {
     cost := input.object.cost
     (remuneration - cost) > (remuneration / 2)
 
-    # preA3: active_loans <= 3
-    input.environment.history.active_loans <= 3
+    # preA3: active_loans < 3
+    input.environment.history.active_loans < 3
 
     # --- Obligation Checks --- #
     # preB0: gdpr

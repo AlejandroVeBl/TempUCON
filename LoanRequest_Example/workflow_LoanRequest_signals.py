@@ -99,6 +99,12 @@ class LoanRequestWorkflowSignals:
                         {"phase": "on", "task": task_name, "user_data": user_data, "object_data": object_data,"environment_data":environment_data},
                         start_to_close_timeout=common_timeout
                     )
+
+                    # --- TESTING AREA ---
+                    #if task_name == "request_a_loan":
+                    #    object_data["customer"]["credentials"]["revoked"] = True
+                    #    workflow.logger.info("TESTING: Credentials revoked correctly.")
+
                     if not on_auth.get("allow"):
                         # Access revoked in real time
                         revoked = True
